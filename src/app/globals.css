@@ -1,0 +1,204 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Telugu:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap');
+
+/* ============================================================
+   VOCALANG DESIGN TOKENS
+   All colours, fonts, spacing, radii, shadows and motion values
+   are defined here. Changing the brand requires editing ONLY this file.
+   ============================================================ */
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* --- Brand Colors --- */
+  --color-primary: 99 102 241;          /* #6366f1 indigo-500 */
+  --color-primary-hover: 79 70 229;     /* #4f46e5 indigo-600 */
+  --color-primary-light: 238 242 255;   /* #eef2ff indigo-50 */
+  --color-primary-dark: 67 56 202;      /* #4338ca indigo-700 */
+
+  /* --- Neutral Palette --- */
+  --color-background: 255 255 255;
+  --color-foreground: 15 23 42;         /* slate-900 */
+  --color-muted: 248 250 252;           /* slate-50 */
+  --color-muted-foreground: 100 116 139; /* slate-500 */
+  --color-border: 226 232 240;          /* slate-200 */
+  --color-input: 241 245 249;           /* slate-100 */
+  --color-ring: 99 102 241;             /* matches primary */
+
+  /* --- Surface Colors --- */
+  --color-card: 255 255 255;
+  --color-card-foreground: 15 23 42;
+  --color-popover: 255 255 255;
+  --color-popover-foreground: 15 23 42;
+
+  /* --- Semantic Colors --- */
+  --color-success: 34 197 94;           /* green-500 */
+  --color-success-light: 240 253 244;   /* green-50 */
+  --color-warning: 245 158 11;          /* amber-500 */
+  --color-warning-light: 255 251 235;   /* amber-50 */
+  --color-error: 239 68 68;             /* red-500 */
+  --color-error-light: 254 242 242;     /* red-50 */
+  --color-info: 59 130 246;             /* blue-500 */
+  --color-info-light: 239 246 255;      /* blue-50 */
+
+  /* --- Typography --- */
+  --font-sans: 'Inter', 'Noto Sans Telugu', 'Noto Sans Devanagari', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* --- Spacing Scale (rem) --- */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+  --space-5xl: 8rem;
+
+  /* --- Border Radius --- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+  --shadow-glow: 0 0 20px rgb(99 102 241 / 0.15);
+
+  /* --- Motion --- */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --- Z-Index Scale --- */
+  --z-dropdown: 50;
+  --z-sticky: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+}
+
+/* --- Dark Mode Tokens --- */
+.dark {
+  --color-primary: 129 140 248;         /* indigo-400 */
+  --color-primary-hover: 165 180 252;   /* indigo-300 */
+  --color-primary-light: 30 27 75;      /* indigo-950 */
+  --color-primary-dark: 99 102 241;     /* indigo-500 */
+
+  --color-background: 2 6 23;           /* slate-950 */
+  --color-foreground: 241 245 249;      /* slate-100 */
+  --color-muted: 15 23 42;              /* slate-900 */
+  --color-muted-foreground: 148 163 184; /* slate-400 */
+  --color-border: 30 41 59;             /* slate-800 */
+  --color-input: 15 23 42;              /* slate-900 */
+  --color-ring: 129 140 248;
+
+  --color-card: 15 23 42;
+  --color-card-foreground: 241 245 249;
+  --color-popover: 15 23 42;
+  --color-popover-foreground: 241 245 249;
+
+  --color-success: 74 222 128;
+  --color-success-light: 5 46 22;
+  --color-warning: 251 191 36;
+  --color-warning-light: 69 26 3;
+  --color-error: 248 113 113;
+  --color-error-light: 69 10 10;
+  --color-info: 96 165 250;
+  --color-info-light: 23 37 84;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-glow: 0 0 20px rgb(129 140 248 / 0.2);
+}
+
+/* --- Base Styles --- */
+* {
+  border-color: rgb(var(--color-border));
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Focus Ring --- */
+*:focus-visible {
+  outline: 2px solid rgb(var(--color-ring));
+  outline-offset: 2px;
+}
+
+/* --- Selection --- */
+::selection {
+  background-color: rgb(var(--color-primary) / 0.2);
+  color: rgb(var(--color-foreground));
+}
+
+/* --- Scrollbar Styling --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-muted-foreground) / 0.3);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-muted-foreground) / 0.5);
+}
+
+/* --- Skip to Content (Accessibility) --- */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  z-index: var(--z-toast);
+  padding: 0.5rem 1rem;
+  background-color: rgb(var(--color-primary));
+  color: white;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+}
+
+.skip-to-content:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* --- Smooth Scroll --- */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* --- Reduce Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
