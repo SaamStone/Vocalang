@@ -10,7 +10,7 @@ import { sleep } from "@/lib/utils";
 const MOCK_DELAY = 800;
 
 // In-memory user store
-let mockUsers: User[] = [
+const mockUsers: User[] = [
   {
     id: "usr_demo_001",
     fullName: "Ravi Kumar",

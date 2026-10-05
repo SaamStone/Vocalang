@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 import { mockWalletApi } from '@/lib/mock-api/wallet'
 import { Button } from '@/components/shared/Button'
 import { formatINR, cn } from '@/lib/utils'
+import type { Wallet } from '@/types'
 
 export default function WalletPage() {
-  const [wallet, setWallet] = useState<any>(null)
+  const [wallet, setWallet] = useState<Wallet | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -89,12 +90,12 @@ export default function WalletPage() {
             </tr>
           </thead>
           <tbody>
-            {(wallet?.transactions || []).map((tx: any, idx: number) => (
+            {(wallet?.transactions || []).map((tx, idx) => (
               <tr key={idx} className="border-t border-[rgb(var(--color-border))]">
-                <td className="p-4">{tx.date || '2026-10-01'}</td>
-                <td className="p-4">{tx.description || 'Campaign Usage'}</td>
+                <td className="p-4">{new Date(tx.createdAt).toLocaleDateString()}</td>
+                <td className="p-4">{tx.description}</td>
                 <td className={cn("p-4 font-semibold", tx.amount > 0 ? "text-green-500" : "text-red-500")}>
-                  {tx.amount > 0 ? '+' : ''}{formatINR(tx.amount || 0)}
+                  {tx.amount > 0 ? '+' : ''}{formatINR(tx.amount)}
                 </td>
               </tr>
             ))}

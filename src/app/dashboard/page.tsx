@@ -93,6 +93,29 @@ export default function DashboardHome() {
       } catch (error) {
         console.error("Failed to load dashboard stats", error);
         // Fallback dummy data
+        const fallbackCampaign: Campaign = {
+          id: 'c-1',
+          name: 'Diwali Reactivation',
+          status: 'running',
+          industry: 'retail',
+          language: 'Hindi',
+          voice: 'female',
+          simultaneousAgents: 2,
+          totalContacts: 5000,
+          contactsCalled: 1240,
+          contactsRemaining: 3760,
+          contactsFailed: 0,
+          estimatedMinutesRemaining: 135,
+          estimatedFinishTime: new Date(Date.now() + 135 * 60_000).toISOString(),
+          callingWindowStart: '09:00',
+          callingWindowEnd: '20:00',
+          maxRetries: 2,
+          costPerMinute: 1.5,
+          totalCost: 1860,
+          totalMinutes: 1240,
+          createdAt: '2023-11-01',
+          batches: [],
+        };
         setStats({
           walletBalance: 12500,
           activeCampaigns: 3,
@@ -108,9 +131,7 @@ export default function DashboardHome() {
             etaMinutes: 15,
             etaFinishTime: '05:30 PM'
           },
-          recentCampaigns: [
-            { id: 'c-1', name: 'Diwali Reactivation', status: 'running', contacts: 5000, called: 1240, remaining: 3760, createdAt: '2023-11-01', tags: ['Retail'] } as any
-          ]
+          recentCampaigns: [fallbackCampaign]
         });
       } finally {
         setLoading(false);

@@ -5,14 +5,15 @@ import { useParams } from 'next/navigation'
 import { mockCampaignApi } from '@/lib/mock-api/campaigns'
 import { Button } from '@/components/shared/Button'
 import { formatDuration, cn } from '@/lib/utils'
+import type { CallResult } from '@/types'
 
 export default function CampaignResultsPage() {
   const params = useParams()
   const id = params.id as string
 
-  const [results, setResults] = useState<any[]>([])
+  const [results, setResults] = useState<CallResult[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedTranscript, setSelectedTranscript] = useState<any | null>(null)
+  const [selectedTranscript, setSelectedTranscript] = useState<CallResult | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -61,13 +62,13 @@ export default function CampaignResultsPage() {
             </tr>
           </thead>
           <tbody>
-            {results.map((res: any, idx: number) => (
+            {results.map((res, idx) => (
               <tr key={idx} className="border-t border-[rgb(var(--color-border))]">
-                <td className="p-4">{res.name || 'John Doe'}</td>
-                <td className="p-4">{res.phone || '+91 9876543210'}</td>
-                <td className="p-4"><span className="bg-[rgb(var(--color-primary))] text-[rgb(var(--color-primary-foreground))] px-2 py-1 rounded-full text-xs">{res.outcome || 'Interested'}</span></td>
+                <td className="p-4">{res.contactName}</td>
+                <td className="p-4">{res.contactPhone}</td>
+                <td className="p-4"><span className="bg-[rgb(var(--color-primary))] text-[rgb(var(--color-primary-foreground))] px-2 py-1 rounded-full text-xs">{res.outcome}</span></td>
                 <td className="p-4">{formatDuration(res.duration || 120)}</td>
-                <td className="p-4">{res.date || '2026-10-04'}</td>
+                <td className="p-4">{new Date(res.callStartedAt).toLocaleDateString()}</td>
                 <td className="p-4">
                   <Button variant="ghost" size="sm" onClick={() => setSelectedTranscript(res)}>View Transcript</Button>
                 </td>
@@ -90,8 +91,12 @@ export default function CampaignResultsPage() {
               <button onClick={() => setSelectedTranscript(null)} className="text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-foreground))]">Close</button>
             </div>
             <div className="space-y-4">
-              <div className="bg-[rgb(var(--color-muted))] p-3 rounded-lg w-3/4">Hello! I am calling from Vocalang.</div>
-              <div className="bg-[rgb(var(--color-primary))] text-[rgb(var(--color-primary-foreground))] p-3 rounded-lg w-3/4 ml-auto">Hi, tell me more.</div>
+              {selectedTranscript.transcript.map((message, index) => (
+                <div key={`${selectedTranscript.id}-${index}`} className={cn("p-3 rounded-lg w-3/4", message.role === 'customer' ? "bg-[rgb(var(--color-primary))] text-[rgb(var(--color-primary-foreground))] ml-auto" : "bg-[rgb(var(--color-muted))]")}>
+                  <p className="mb-1 text-xs font-semibold uppercase opacity-70">{message.role}</p>
+                  {message.text}
+                </div>
+              ))}
             </div>
             <div className="mt-8">
               <div className="w-full bg-[rgb(var(--color-muted))] h-2 rounded-full overflow-hidden mb-2"><div className="bg-[rgb(var(--color-primary))] w-1/3 h-full" /></div>

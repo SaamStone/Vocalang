@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Building2, GraduationCap, Plane, Users, ArrowRight } from 'lucide-react';
+import { Building2, GraduationCap, Plane, Users, ArrowRight, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/lib/config/site';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: 'Discover how Vocalang is built for your industry.',
 };
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   Building2,
   GraduationCap,
   Plane,

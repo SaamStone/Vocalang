@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { WizardState, ColumnMapping } from "@/types";
 import { mockCampaignApi } from "@/lib/mock-api/campaigns";
@@ -94,6 +94,25 @@ export default function CampaignWizardPage() {
     callingWindowEnd: siteConfig.callingDefaults.windowEnd,
     maxRetries: siteConfig.callingDefaults.maxRetries,
   });
+
+  const estimate = useMemo(() => {
+    const totalContacts = state.cleanedContacts?.valid;
+    if (!totalContacts) return undefined;
+
+    return mockCampaignApi.calculateEstimate({
+      totalContacts,
+      simultaneousAgents: state.simultaneousAgents,
+      callingWindowStart: state.callingWindowStart,
+      callingWindowEnd: state.callingWindowEnd,
+      maxRetries: state.maxRetries,
+    });
+  }, [
+    state.cleanedContacts?.valid,
+    state.simultaneousAgents,
+    state.callingWindowStart,
+    state.callingWindowEnd,
+    state.maxRetries,
+  ]);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [walletBalance] = useState(4250); // Hardcoded mock balance
@@ -204,30 +223,6 @@ export default function CampaignWizardPage() {
   };
 
   // -------------------------------------------------------------
-  // Step 4: Configure Logic
-  // -------------------------------------------------------------
-  useEffect(() => {
-    // Live estimate updates when configuration changes
-    if (state.step === 4 && state.cleanedContacts?.valid) {
-      const estimate = mockCampaignApi.calculateEstimate({
-        totalContacts: state.cleanedContacts.valid,
-        simultaneousAgents: state.simultaneousAgents,
-        callingWindowStart: state.callingWindowStart,
-        callingWindowEnd: state.callingWindowEnd,
-        maxRetries: state.maxRetries,
-      });
-      updateState({ estimate });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    state.step,
-    state.simultaneousAgents,
-    state.callingWindowStart,
-    state.callingWindowEnd,
-    state.maxRetries,
-  ]);
-
-  // -------------------------------------------------------------
   // Step 5: Confirm Logic
   // -------------------------------------------------------------
   const handleStartCampaign = async () => {
@@ -237,7 +232,7 @@ export default function CampaignWizardPage() {
     }
     setIsProcessing(true);
     try {
-      const camp = await mockCampaignApi.createCampaign(state);
+      const camp = await mockCampaignApi.createCampaign({ ...state, estimate });
       router.push(`/dashboard/campaigns/${camp.id}`);
     } catch (err) {
       console.error(err);
@@ -339,7 +334,7 @@ export default function CampaignWizardPage() {
                     className="w-full p-2 rounded-[var(--radius-sm)] border border-[rgb(var(--color-border))] bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))]"
                     value={mapping.targetField}
                     onChange={(e) =>
-                      handleMappingChange(idx, e.target.value as any)
+                      handleMappingChange(idx, e.target.value as ColumnMapping["targetField"])
                     }
                   >
                     <option value="name">Name</option>
@@ -364,7 +359,7 @@ export default function CampaignWizardPage() {
       {!hasPhoneMapped && (
         <div className="p-4 rounded-[var(--radius-md)] bg-red-50 text-red-600 flex items-center">
           <AlertTriangle className="w-5 h-5 mr-2" />
-          You must map at least one column to 'Phone Number'.
+                  You must map at least one column to &apos;Phone Number&apos;.
         </div>
       )}
 
@@ -384,7 +379,7 @@ export default function CampaignWizardPage() {
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-[rgb(var(--color-foreground))]">Review Cleaned List</h2>
         <p className="text-[rgb(var(--color-muted-foreground))]">
-          We've processed your contacts and removed invalid entries.
+          We&apos;ve processed your contacts and removed invalid entries.
         </p>
       </div>
 
@@ -582,27 +577,27 @@ export default function CampaignWizardPage() {
               <div className="flex justify-between pt-3">
                 <span className="text-[rgb(var(--color-muted-foreground))]">Total Contacts</span>
                 <span className="font-semibold text-[rgb(var(--color-foreground))]">
-                  {state.estimate?.totalContacts || 0}
+                  {estimate?.totalContacts || 0}
                 </span>
               </div>
               <div className="flex justify-between pt-3">
                 <span className="text-[rgb(var(--color-muted-foreground))]">Est. Time Required</span>
                 <span className="font-semibold text-[rgb(var(--color-foreground))]">
-                  {state.estimate?.estimatedDuration || "-"}
+                  {estimate?.estimatedDuration || "-"}
                 </span>
               </div>
               <div className="flex justify-between pt-3">
                 <span className="text-[rgb(var(--color-muted-foreground))]">Finish By</span>
                 <span className="font-semibold text-[rgb(var(--color-foreground))]">
-                  {state.estimate?.estimatedFinishTime
-                    ? new Date(state.estimate.estimatedFinishTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                  {estimate?.estimatedFinishTime
+                    ? new Date(estimate.estimatedFinishTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     : "-"}
                 </span>
               </div>
               <div className="flex justify-between pt-3">
                 <span className="text-[rgb(var(--color-muted-foreground))]">Est. Cost</span>
                 <span className="font-semibold text-[rgb(var(--color-primary))]">
-                  ₹{state.estimate?.estimatedCost || 0}
+                  ₹{estimate?.estimatedCost || 0}
                 </span>
               </div>
             </div>
@@ -622,7 +617,7 @@ export default function CampaignWizardPage() {
   );
 
   const renderStep5 = () => {
-    const cost = state.estimate?.estimatedCost || 0;
+    const cost = estimate?.estimatedCost || 0;
     const isInsufficientBalance = walletBalance < cost;
 
     return (

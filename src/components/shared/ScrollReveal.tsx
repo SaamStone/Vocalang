@@ -1,7 +1,21 @@
 "use client";
 
-import { useRef, useEffect, useState, type ReactNode } from "react";
+import { useRef, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+
+function subscribeToMotionPreference(onChange: () => void) {
+  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mediaQuery.addEventListener("change", onChange);
+  return () => mediaQuery.removeEventListener("change", onChange);
+}
+
+function getMotionPreferenceSnapshot() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getServerMotionPreferenceSnapshot() {
+  return false;
+}
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -21,19 +35,21 @@ export function ScrollReveal({
   direction = "up",
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [hasEntered, setHasEntered] = useState(false);
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeToMotionPreference,
+    getMotionPreferenceSnapshot,
+    getServerMotionPreferenceSnapshot
+  );
+  const isVisible = prefersReducedMotion || hasEntered;
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) {
-      setIsVisible(true);
-      return;
-    }
+    if (prefersReducedMotion) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
-          setIsVisible(true);
+          setHasEntered(true);
           observer.disconnect();
         }
       },
@@ -45,7 +61,7 @@ export function ScrollReveal({
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [prefersReducedMotion]);
 
   const directionStyles = {
     up: "translate-y-8",

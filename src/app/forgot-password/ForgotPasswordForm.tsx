@@ -12,7 +12,7 @@ export function ForgotPasswordForm() {
     <div className="w-full max-w-md mx-auto p-6 bg-[rgb(var(--color-card))] rounded-lg shadow-sm border border-[rgb(var(--color-border))]">
       <h1 className="text-2xl font-bold mb-2 text-center text-[rgb(var(--color-foreground))]">Reset Password</h1>
       <p className="text-center text-sm text-[rgb(var(--color-muted-foreground))] mb-6">
-        Enter your email address and we'll send you instructions to reset your password.
+        Enter your email address and we&apos;ll send you instructions to reset your password.
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Building2, GraduationCap, Plane, Users, CheckCircle2 } from 'lucide-react';
+import { Building2, GraduationCap, Plane, Users, CheckCircle2, type LucideIcon } from 'lucide-react';
 import { siteConfig } from '@/lib/config/site';
 import { cn } from '@/lib/utils';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
 import { Button } from '@/components/shared/Button';
 import Link from 'next/link';
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   Building2,
   GraduationCap,
   Plane,
@@ -80,7 +80,7 @@ export default function IndustryDetailPage({ params }: Props) {
           <ScrollReveal delay={0.2}>
             <h2 className="text-3xl font-bold mb-8 text-[var(--color-foreground)]">Sample conversation</h2>
             <div className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-              {industry.sampleTranscript?.map((msg: any, index: number) => {
+              {industry.sampleTranscript?.map((msg, index) => {
                 const isAgent = msg.role === 'agent';
                 return (
                   <div

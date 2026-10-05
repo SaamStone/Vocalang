@@ -42,7 +42,7 @@ export default function AboutPage() {
             About Vocalang
           </h1>
           <p className="text-2xl md:text-3xl font-medium text-[var(--color-primary)] leading-tight mb-6">
-            "We believe every business in India deserves access to AI-powered communication tools, regardless of size or budget."
+            &quot;We believe every business in India deserves access to AI-powered communication tools, regardless of size or budget.&quot;
           </p>
         </ScrollReveal>
       </section>
@@ -96,7 +96,7 @@ export default function AboutPage() {
           <div className="bg-[var(--color-primary)] text-[var(--color-primary-foreground)] rounded-3xl p-12 max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold mb-6">Want to learn more?</h2>
             <p className="text-lg mb-8 opacity-90 max-w-xl mx-auto">
-              We'd love to chat about how Vocalang can help your business grow.
+              We&apos;d love to chat about how Vocalang can help your business grow.
             </p>
             <Button size="lg" href="/contact" className="bg-white text-[rgb(var(--color-primary))] hover:bg-white/90">
               Contact Us

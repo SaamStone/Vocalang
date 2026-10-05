@@ -47,12 +47,12 @@ export function DemoPlayer() {
 
   useEffect(() => {
     if (!isPlaying) return;
-    if (elapsed >= SAMPLE_SECONDS) {
-      setIsPlaying(false);
-      return;
-    }
 
-    const timer = window.setTimeout(() => setElapsed((current) => current + 1), 1000);
+    const timer = window.setTimeout(() => {
+      const nextElapsed = elapsed + 1;
+      setElapsed(nextElapsed);
+      if (nextElapsed >= SAMPLE_SECONDS) setIsPlaying(false);
+    }, 1000);
     return () => window.clearTimeout(timer);
   }, [elapsed, isPlaying]);
 

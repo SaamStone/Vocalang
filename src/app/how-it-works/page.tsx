@@ -57,7 +57,7 @@ export default function HowItWorksPage() {
               How Vocalang works
             </h1>
             <p className="text-lg md:text-xl text-[var(--color-muted-foreground)]">
-              Launch your AI voice campaigns in minutes. It's as simple as uploading a list and letting our AI do the rest.
+              Launch your AI voice campaigns in minutes. It&apos;s as simple as uploading a list and letting our AI do the rest.
             </p>
           </div>
         </ScrollReveal>

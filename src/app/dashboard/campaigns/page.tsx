@@ -38,11 +38,7 @@ export default function CampaignListPage() {
         setCampaigns(data);
       } catch (error) {
         console.error("Failed to load campaigns", error);
-        // Fallback data
-        setCampaigns([
-          { id: '1', name: 'Festive Promo', status: 'completed', contacts: 10000, called: 10000, remaining: 0, createdAt: '2023-10-15', tags: ['Retail', 'Hindi'] } as any,
-          { id: '2', name: 'Q4 Updates', status: 'running', contacts: 5000, called: 2500, remaining: 2500, createdAt: '2023-11-01', tags: ['Tech', 'English'], estimatedFinish: 'Today, 5:00 PM' } as any
-        ]);
+        setCampaigns([]);
       } finally {
         setLoading(false);
       }
@@ -159,7 +155,6 @@ export default function CampaignListPage() {
                     
                     <div className="flex items-center justify-between text-xs text-[rgb(var(--color-muted-foreground))] pt-2 border-t border-[rgb(var(--color-border))]">
                       <span>Created {new Date(campaign.createdAt).toLocaleDateString()}</span>
-                      {/* @ts-ignore */}
                       {campaign.estimatedFinishTime && campaign.status === 'running' && (
                         <span>ETA: {new Date(campaign.estimatedFinishTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</span>
                       )}

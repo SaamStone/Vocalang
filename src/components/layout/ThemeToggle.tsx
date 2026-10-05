@@ -1,38 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 
+const THEME_CHANGE_EVENT = "vocalang-theme-change";
+
+function subscribeToTheme(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(THEME_CHANGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(THEME_CHANGE_EVENT, onChange);
+  };
+}
+
+function getThemeSnapshot(): "light" | "dark" {
+  const stored = localStorage.getItem("theme");
+  return stored === "dark" || (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ? "dark"
+    : "light";
+}
+
+function getServerThemeSnapshot(): "light" | "dark" {
+  return "light";
+}
+
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [mounted, setMounted] = useState(false);
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem("theme");
-    if (stored === "dark" || (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setTheme("dark");
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
 
   const toggle = () => {
     const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
     localStorage.setItem("theme", next);
-    document.documentElement.classList.toggle("dark");
+    document.documentElement.classList.toggle("dark", next === "dark");
+    window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
   };
-
-  if (!mounted) {
-    return (
-      <button
-        className="inline-flex items-center justify-center p-2 rounded-[var(--radius-md)] text-[rgb(var(--color-muted-foreground))]"
-        aria-label="Toggle theme"
-      >
-        <Sun className="h-4 w-4" />
-      </button>
-    );
-  }
 
   return (
     <button

@@ -51,8 +51,8 @@ export default function PrivacyPage() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4 mt-8">8. Children's Privacy</h2>
-        <p className="mb-4">Placeholder text for children's privacy.</p>
+        <h2 className="text-2xl font-semibold mb-4 mt-8">8. Children&apos;s Privacy</h2>
+        <p className="mb-4">Placeholder text for children&apos;s privacy.</p>
       </section>
 
       <section className="mb-8">

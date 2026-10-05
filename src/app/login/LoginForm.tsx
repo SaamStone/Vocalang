@@ -69,7 +69,7 @@ export function LoginForm() {
       </form>
 
       <p className="mt-6 text-center text-sm text-[rgb(var(--color-muted-foreground))]">
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <Link href="/register" className="text-[rgb(var(--color-primary))] hover:underline font-medium">
           Sign up
         </Link>

@@ -39,7 +39,7 @@ export default function ContactPage() {
               Get in touch
             </h1>
             <p className="text-xl text-[var(--color-muted-foreground)]">
-              Have questions about Vocalang? We're here to help you get started.
+              Have questions about Vocalang? We&apos;re here to help you get started.
             </p>
           </div>
         </ScrollReveal>
