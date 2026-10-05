@@ -116,8 +116,8 @@ export default function CampaignListPage() {
       ) : filteredCampaigns.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCampaigns.map(campaign => {
-            const called = campaign.called || 0;
-            const total = campaign.contacts || 1;
+            const called = campaign.contactsCalled;
+            const total = campaign.totalContacts || 1;
             const percent = Math.min(100, Math.round((called / Math.max(total, 1)) * 100));
 
             return (
@@ -130,9 +130,9 @@ export default function CampaignListPage() {
                     <StatusBadge status={campaign.status} />
                   </div>
                   
-                  {campaign.tags && campaign.tags.length > 0 && (
+                  {[campaign.industry, campaign.language].filter(Boolean).length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {campaign.tags.map((tag: string, i: number) => (
+                      {[campaign.industry, campaign.language].filter(Boolean).map((tag, i) => (
                         <span key={i} className="px-2 py-1 bg-[rgb(var(--color-muted))] text-[rgb(var(--color-muted-foreground))] text-xs rounded-[var(--radius-sm)]">
                           {tag}
                         </span>
@@ -160,8 +160,8 @@ export default function CampaignListPage() {
                     <div className="flex items-center justify-between text-xs text-[rgb(var(--color-muted-foreground))] pt-2 border-t border-[rgb(var(--color-border))]">
                       <span>Created {new Date(campaign.createdAt).toLocaleDateString()}</span>
                       {/* @ts-ignore */}
-                      {campaign.estimatedFinish && campaign.status === 'running' && (
-                        <span>ETA: {campaign.estimatedFinish as string}</span>
+                      {campaign.estimatedFinishTime && campaign.status === 'running' && (
+                        <span>ETA: {new Date(campaign.estimatedFinishTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</span>
                       )}
                     </div>
                   </div>

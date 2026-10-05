@@ -37,7 +37,10 @@ export default function CampaignDetailPage() {
     return <div className="p-8 text-[rgb(var(--color-foreground))]">Campaign not found</div>
   }
 
-  const isRunning = campaign.status === 'RUNNING'
+  const isRunning = campaign.status === 'running'
+  const progress = campaign.totalContacts > 0
+    ? Math.min(100, Math.round((campaign.contactsCalled / campaign.totalContacts) * 100))
+    : 0
 
   return (
     <div className="space-y-8 text-[rgb(var(--color-foreground))]">
@@ -50,7 +53,7 @@ export default function CampaignDetailPage() {
           <Button variant={isRunning ? "secondary" : "primary"}>
             {isRunning ? 'Pause' : 'Resume'}
           </Button>
-          <Button variant="danger">Stop</Button>
+          <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950">Stop</Button>
           <Button href={`/dashboard/campaigns/${id}/results`} variant="outline">
             View Results
           </Button>
@@ -60,30 +63,30 @@ export default function CampaignDetailPage() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div className="bg-[rgb(var(--color-card))] p-4 rounded-[var(--radius-md)] border border-[rgb(var(--color-border))]">
           <div className="text-sm text-[rgb(var(--color-muted-foreground))]">Total Contacts</div>
-          <div className="text-2xl font-bold">{formatNumber(campaign.metrics?.total || 0)}</div>
+          <div className="text-2xl font-bold">{formatNumber(campaign.totalContacts)}</div>
         </div>
         <div className="bg-[rgb(var(--color-card))] p-4 rounded-[var(--radius-md)] border border-[rgb(var(--color-border))]">
           <div className="text-sm text-[rgb(var(--color-muted-foreground))]">Called</div>
-          <div className="text-2xl font-bold">{formatNumber(campaign.metrics?.called || 0)}</div>
+          <div className="text-2xl font-bold">{formatNumber(campaign.contactsCalled)}</div>
         </div>
         <div className="bg-[rgb(var(--color-card))] p-4 rounded-[var(--radius-md)] border border-[rgb(var(--color-border))]">
           <div className="text-sm text-[rgb(var(--color-muted-foreground))]">Remaining</div>
-          <div className="text-2xl font-bold">{formatNumber(campaign.metrics?.remaining || 0)}</div>
+          <div className="text-2xl font-bold">{formatNumber(campaign.contactsRemaining)}</div>
         </div>
         <div className="bg-[rgb(var(--color-card))] p-4 rounded-[var(--radius-md)] border border-[rgb(var(--color-border))]">
           <div className="text-sm text-[rgb(var(--color-muted-foreground))]">Failed</div>
-          <div className="text-2xl font-bold text-red-500">{formatNumber(campaign.metrics?.failed || 0)}</div>
+          <div className="text-2xl font-bold text-red-500">{formatNumber(campaign.contactsFailed)}</div>
         </div>
         <div className="bg-[rgb(var(--color-card))] p-4 rounded-[var(--radius-md)] border border-[rgb(var(--color-border))]">
           <div className="text-sm text-[rgb(var(--color-muted-foreground))]">Est. Finish</div>
-          <div className="text-2xl font-bold text-[rgb(var(--color-primary))]">~10 min</div>
+          <div className="text-2xl font-bold text-[rgb(var(--color-primary))]">{formatDuration(campaign.estimatedMinutesRemaining)}</div>
         </div>
       </div>
 
       <div className="bg-[rgb(var(--color-card))] p-6 rounded-[var(--radius-lg)] border border-[rgb(var(--color-border))]">
         <h2 className="text-xl font-semibold mb-4">Progress</h2>
         <div className="w-full bg-[rgb(var(--color-muted))] h-4 rounded-full overflow-hidden">
-          <div className="bg-[rgb(var(--color-primary))] h-full" style={{ width: `${(campaign.metrics?.called || 0) / (campaign.metrics?.total || 1) * 100}%` }} />
+          <div className="bg-[rgb(var(--color-primary))] h-full" style={{ width: `${progress}%` }} />
         </div>
       </div>
       
@@ -98,7 +101,7 @@ export default function CampaignDetailPage() {
         </div>
         <div>
           <div className="text-sm text-[rgb(var(--color-muted-foreground))]">Cost per min</div>
-          <div className="font-medium">{formatINR(2)}</div>
+          <div className="font-medium">{formatINR(campaign.costPerMinute)}</div>
         </div>
       </div>
     </div>

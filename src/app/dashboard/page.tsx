@@ -80,11 +80,16 @@ export default function DashboardHome() {
         const dashboardStats = await mockCampaignApi.getDashboardStats();
         // Assume wallet balance comes from stats or wallet API
         let balance = dashboardStats.walletBalance;
-        if (balance === undefined && mockWalletApi?.getBalance) {
-           const wallet = await mockWalletApi.getBalance();
-           balance = wallet.balance || 0;
+        if (balance === undefined) {
+          balance = await mockWalletApi.getBalance();
         }
-        setStats({ ...dashboardStats, walletBalance: balance || 0 });
+        setStats({
+          walletBalance: balance || 0,
+          activeCampaigns: dashboardStats.activeCampaigns,
+          callsToday: dashboardStats.totalCallsToday,
+          totalCalls: dashboardStats.totalCallsAllTime,
+          recentCampaigns: dashboardStats.recentCampaigns,
+        });
       } catch (error) {
         console.error("Failed to load dashboard stats", error);
         // Fallback dummy data
@@ -225,9 +230,9 @@ export default function DashboardHome() {
                     >
                       <td className="py-3 px-4 text-sm font-medium text-[rgb(var(--color-foreground))]">{campaign.name}</td>
                       <td className="py-3 px-4"><StatusBadge status={campaign.status} /></td>
-                      <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.contacts || 0)}</td>
-                      <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.called || 0)}</td>
-                      <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.remaining || 0)}</td>
+                      <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.totalContacts)}</td>
+                      <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.contactsCalled)}</td>
+                      <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.contactsRemaining)}</td>
                       <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{new Date(campaign.createdAt).toLocaleDateString()}</td>
                     </tr>
                   ))
