@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/config/site';
 import { cn } from '@/lib/utils';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
 import { Button } from '@/components/shared/Button';
-import Link from 'next/link';
+
 
 const iconMap: Record<string, LucideIcon> = {
   Building2,
@@ -15,7 +15,7 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -25,7 +25,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const industry = siteConfig.industries.find((i) => i.slug === params.slug);
+  const { slug } = await params;
+  const industry = siteConfig.industries.find((i) => i.slug === slug);
   if (!industry) return {};
   
   return {
@@ -34,8 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function IndustryDetailPage({ params }: Props) {
-  const industry = siteConfig.industries.find((i) => i.slug === params.slug);
+export default async function IndustryDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const industry = siteConfig.industries.find((i) => i.slug === slug);
   
   if (!industry) {
     notFound();

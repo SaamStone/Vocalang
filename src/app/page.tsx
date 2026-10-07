@@ -169,7 +169,6 @@ export default function HomePage() {
             <span aria-hidden="true">ⓘ</span> Pricing shown is a placeholder and may change.
           </div>
           <PricingPlans plans={pricingPlans} />
-          <p className="-mt-10 text-center text-sm text-[rgb(var(--color-muted-foreground))]">Want to try Vocalang first? <Link href="/demo" className="font-semibold text-[rgb(var(--color-foreground))] underline underline-offset-4">Try the free demo</Link>.</p>
         </div>
       </section>
 
@@ -182,12 +181,12 @@ export default function HomePage() {
       </section>
 
       <section className="px-4 pb-20 sm:px-6 sm:pb-28 lg:px-8">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-[rgb(var(--color-foreground))] px-6 py-14 text-center text-white sm:px-12 sm:py-20">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-slate-900 px-6 py-14 text-center text-white sm:px-12 sm:py-20">
           <p className="marketing-kicker justify-center !text-white/70">Make the next conversation count</p>
           <h2 className="text-4xl leading-tight text-white sm:text-5xl">See what a voice agent can do for your team</h2>
           <p className="mx-auto mt-4 max-w-xl leading-7 text-white/70">Try a sample call, then explore how Vocalang can fit your workflow.</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Button href="/demo" className="bg-white text-[rgb(var(--color-foreground))] hover:bg-white/90">Try the demo <ArrowRight className="ml-2 h-4 w-4" /></Button>
+            <Button href="/demo" className="bg-white text-slate-900 hover:bg-white/90">Try the demo <ArrowRight className="ml-2 h-4 w-4" /></Button>
             <Button href="/register" variant="outline" className="border-white/30 text-white hover:bg-white/10">Create an account</Button>
           </div>
         </div>

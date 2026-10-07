@@ -92,22 +92,22 @@
 
 /* --- Dark Mode Tokens --- */
 .dark {
-  --color-primary: 150 66 30;         /* indigo-400 */
-  --color-primary-hover: 123 49 23;   /* indigo-300 */
-  --color-primary-light: 48 43 39;      /* indigo-950 */
-  --color-primary-dark: 101 44 18;     /* indigo-500 */
+  --color-primary: 153 61 35;         /* warm terracotta for dark surfaces */
+  --color-primary-hover: 132 51 29;   /* deeper terracotta hover */
+  --color-primary-light: 53 39 33;      /* soft terracotta surface */
+  --color-primary-dark: 183 73 41;     /* warm terracotta emphasis */
 
-  --color-background: 2 6 23;           /* slate-950 */
+  --color-background: 19 19 18;          /* warm charcoal */
   --color-foreground: 244 242 238;      /* slate-100 */
-  --color-muted: 28 27 25;              /* slate-900 */
-  --color-muted-foreground: 170 165 157; /* slate-400 */
-  --color-border: 58 55 50;             /* slate-800 */
-  --color-input: 38 36 32;              /* slate-900 */
+  --color-muted: 31 30 28;              /* raised section surface */
+  --color-muted-foreground: 182 178 170; /* readable warm gray */
+  --color-border: 62 59 54;             /* soft warm divider */
+  --color-input: 38 37 34;              /* warm input surface */
   --color-ring: 245 243 239;
 
-  --color-card: 30 29 26;
+  --color-card: 26 25 23;
   --color-card-foreground: 244 242 238;
-  --color-popover: 30 29 26;
+  --color-popover: 26 25 23;
   --color-popover-foreground: 244 242 238;
 
   --color-success: 74 222 128;
@@ -118,6 +118,9 @@
   --color-error-light: 69 10 10;
   --color-info: 96 165 250;
   --color-info-light: 23 37 84;
+
+  --color-accent: 247 133 91;
+  --color-accent-soft: 62 39 31;
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
@@ -212,7 +215,7 @@ h1, h2 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.
   background: radial-gradient(ellipse 75% 58% at 50% 0%, rgba(255, 166, 104, .86) 0%, rgba(231, 207, 229, .72) 43%, rgba(250, 249, 247, 0) 100%);
 }
 .dark .marketing-hero {
-  background: radial-gradient(ellipse 75% 58% at 50% 0%, rgba(143, 73, 45, .58) 0%, rgba(65, 57, 79, .62) 45%, rgba(2, 6, 23, 0) 100%);
+  background: radial-gradient(ellipse 75% 58% at 50% 0%, rgba(143, 73, 45, .58) 0%, rgba(65, 57, 79, .62) 45%, rgba(19, 19, 18, 0) 100%);
 }
 .marketing-hero-wash { display: none; }
 .marketing-hero-orb { background: rgb(var(--color-accent)); opacity: .12; }

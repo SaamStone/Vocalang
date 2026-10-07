@@ -88,29 +88,7 @@ export const pricingPlans: readonly PricingPlan[] = [
     ],
     cta: "Get started",
   },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    description: "Custom solutions for large organizations.",
-    price: -1,
-    annualPrice: null,
-    priceLabel: "Custom",
-    perMinuteRate: 0,
-    includedMinutes: 0,
-    maxAgents: 50,
-    voicesAllowed: ["male", "female"],
-    features: [
-      "Custom minute packages",
-      "Unlimited simultaneous agents",
-      "All voices & languages",
-      "Custom integrations",
-      "Dedicated account manager",
-      "SLA guarantee",
-      "On-premise option",
-      "Custom AI training",
-    ],
-    cta: "Contact sales",
-  },
+
 ] as const;
 
 export const faqItems: readonly { question: string; answer: string }[] = [
