@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ConditionalChrome } from "@/components/layout/ConditionalChrome";
 import { siteConfig } from "@/lib/config/site";
 import "./globals.css";
 
@@ -56,13 +57,9 @@ export default function RootLayout({
           Skip to content
         </a>
 
-        <Header />
-
-        <main id="main-content" className="flex-1 pt-[4.5rem]">
+        <ConditionalChrome header={<Header />} footer={<Footer />}>
           {children}
-        </main>
-
-        <Footer />
+        </ConditionalChrome>
       </body>
     </html>
   );

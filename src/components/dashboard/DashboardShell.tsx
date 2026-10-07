@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Megaphone,
   Wallet,
   Phone,
+  PhoneIncoming,
+  PhoneOutgoing,
   Settings,
   LogOut,
   ChevronLeft,
@@ -30,13 +32,21 @@ interface SidebarItem {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
+  { label: "Outbound Calls", href: "/dashboard/calls/outbound", icon: PhoneOutgoing },
+  { label: "Inbound Calls", href: "/dashboard/calls/inbound", icon: PhoneIncoming },
   { label: "Wallet", href: "/dashboard/wallet", icon: Wallet },
   { label: "Numbers", href: "/dashboard/numbers", icon: Phone },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ onCollapsedChange }: { onCollapsedChange?: (collapsed: boolean) => void }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    window.sessionStorage.removeItem('vocalang-demo-session');
+    router.push('/login');
+  };
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -55,7 +65,11 @@ export function DashboardSidebar() {
           <Logo size="small" />
         )}
         <button
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => setCollapsed((current) => {
+            const next = !current;
+            onCollapsedChange?.(next);
+            return next;
+          })}
           className="hidden lg:flex items-center justify-center w-7 h-7 rounded-[var(--radius-md)] text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-foreground))] hover:bg-[rgb(var(--color-muted))] transition-colors"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
@@ -121,6 +135,7 @@ export function DashboardSidebar() {
           </div>
         )}
         <button
+          onClick={handleLogout}
           className={cn(
             "flex items-center gap-3 w-full px-3 py-2.5 rounded-[var(--radius-lg)] text-sm font-medium text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-error))] hover:bg-[rgb(var(--color-error-light))] transition-colors",
             collapsed && "justify-center px-2"
@@ -176,11 +191,23 @@ export function DashboardSidebar() {
 }
 
 export function DashboardHeader() {
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const router = useRouter();
+
+  const logout = () => {
+    window.sessionStorage.removeItem("vocalang-demo-session");
+    router.push("/login");
+  };
+
   return (
     <header className="sticky top-0 z-[var(--z-sticky)] h-16 bg-[rgb(var(--color-background))/0.8] backdrop-blur-xl border-b border-[rgb(var(--color-border))] flex items-center justify-end px-4 sm:px-6 gap-3">
       <ThemeToggle />
 
       <button
+        type="button"
+        onClick={() => { setNotificationsOpen((open) => !open); setProfileOpen(false); }}
+        aria-expanded={notificationsOpen}
         className="relative p-2 rounded-[var(--radius-md)] text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-foreground))] hover:bg-[rgb(var(--color-muted))] transition-colors"
         aria-label="Notifications"
       >
@@ -188,7 +215,14 @@ export function DashboardHeader() {
         <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[rgb(var(--color-error))] rounded-full" />
       </button>
 
-      <button className="flex items-center gap-2 p-1.5 pr-3 rounded-[var(--radius-full)] hover:bg-[rgb(var(--color-muted))] transition-colors">
+      {notificationsOpen && (
+        <div role="status" className="absolute right-20 top-14 z-[var(--z-dropdown)] w-72 rounded-[var(--radius-lg)] border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] p-4 shadow-[var(--shadow-lg)]">
+          <p className="font-semibold text-[rgb(var(--color-foreground))]">Notifications</p>
+          <p className="mt-2 text-sm text-[rgb(var(--color-muted-foreground))]">You’re all caught up. New campaign updates will appear here.</p>
+        </div>
+      )}
+
+      <button type="button" aria-label="Account menu" aria-expanded={profileOpen} onClick={() => { setProfileOpen((open) => !open); setNotificationsOpen(false); }} className="flex items-center gap-2 p-1.5 pr-3 rounded-[var(--radius-full)] hover:bg-[rgb(var(--color-muted))] transition-colors">
         <div className="w-8 h-8 rounded-full bg-[rgb(var(--color-primary))] flex items-center justify-center">
           <User className="h-4 w-4 text-white" />
         </div>
@@ -196,6 +230,16 @@ export function DashboardHeader() {
           Ravi Kumar
         </span>
       </button>
+      {profileOpen && (
+        <div className="absolute right-3 top-14 z-[var(--z-dropdown)] w-48 rounded-[var(--radius-lg)] border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] p-2 shadow-[var(--shadow-lg)]">
+          <Link href="/dashboard/settings" onClick={() => setProfileOpen(false)} className="block rounded-[var(--radius-md)] px-3 py-2 text-sm text-[rgb(var(--color-foreground))] hover:bg-[rgb(var(--color-muted))]">Account settings</Link>
+          <button type="button" onClick={logout} className="w-full rounded-[var(--radius-md)] px-3 py-2 text-left text-sm text-[rgb(var(--color-error))] hover:bg-[rgb(var(--color-muted))]">Log out</button>
+        </div>
+      )}
     </header>
   );
 }
+
+
+
+

@@ -165,6 +165,13 @@ export interface CallResult {
   callStartedAt: string;
   callEndedAt: string;
   retryNumber: number;
+  direction?: "incoming" | "outgoing";
+  topic?: string;
+  summary?: string;
+  sentiment?: "positive" | "neutral" | "negative" | "follow_up" | "abusive";
+  whatsappStatus?: "sent" | "not_sent" | "failed";
+  disconnectReason?: string;
+  abusive?: boolean;
 }
 
 export interface TranscriptMessage {
@@ -208,6 +215,7 @@ export interface WizardState {
   fileName?: string;
   parsedHeaders?: string[];
   parsedRows?: Record<string, string>[];
+  parsedTotalRows?: number;
   columnMappings?: ColumnMapping[];
   cleanedContacts?: {
     valid: number;

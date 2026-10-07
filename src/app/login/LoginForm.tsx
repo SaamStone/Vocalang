@@ -2,15 +2,28 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { GoogleSignInButton } from '@/components/shared/GoogleSignInButton';
 import { Button } from '@/components/shared/Button';
 import { t } from '@/lib/i18n';
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const identifier = String(formData.get('email') ?? '').trim();
+
+    // Local preview only: keep an identifier and temporary session in this tab.
+    // Never persist or validate the password; Supabase will replace this flow.
+    window.sessionStorage.setItem(
+      'vocalang-demo-session',
+      JSON.stringify({ identifier, createdAt: new Date().toISOString() }),
+    );
+    router.push('/dashboard');
   };
 
   return (
@@ -23,6 +36,9 @@ export function LoginForm() {
         <span className="text-xs text-[rgb(var(--color-muted-foreground))]">OR CONTINUE WITH EMAIL</span>
         <div className="h-px flex-1 bg-[rgb(var(--color-border))]" />
       </div>
+      <p className="mb-4 rounded-lg border border-amber-300/60 bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-900">
+        Local demo only: enter any email and password to preview the dashboard. Your password is discarded; the temporary session ends when this tab closes.
+      </p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <label htmlFor="email" className="text-sm font-medium text-[rgb(var(--color-foreground))]">
@@ -30,6 +46,7 @@ export function LoginForm() {
           </label>
           <input
             id="email"
+            name="email"
             type="text"
             className="px-3 py-2 border border-[rgb(var(--color-border))] rounded-md bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))]"
             required
@@ -48,6 +65,7 @@ export function LoginForm() {
           <div className="relative">
             <input
               id="password"
+              name="password"
               type={showPassword ? 'text' : 'password'}
               className="w-full px-3 py-2 border border-[rgb(var(--color-border))] rounded-md bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] pr-10"
               required
@@ -64,7 +82,7 @@ export function LoginForm() {
           </div>
         </div>
         <Button type="submit" className="mt-2 w-full">
-          Log in
+          Preview dashboard
         </Button>
       </form>
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { mockCampaignApi } from '@/lib/mock-api/campaigns';
 import { mockWalletApi } from '@/lib/mock-api/wallet';
-import { cn, formatINR, formatDuration, formatNumber } from '@/lib/utils';
+import { cn, formatINR, formatNumber } from '@/lib/utils';
 import { Button } from '@/components/shared/Button';
 import { Campaign } from '@/types';
 
@@ -88,6 +88,21 @@ export default function DashboardHome() {
           activeCampaigns: dashboardStats.activeCampaigns,
           callsToday: dashboardStats.totalCallsToday,
           totalCalls: dashboardStats.totalCallsAllTime,
+          activeCampaignProgress: (() => {
+            const active = dashboardStats.recentCampaigns.find((campaign) => campaign.status === 'running');
+            if (!active) return undefined;
+            const minutes = active.estimatedMinutesRemaining;
+            return {
+              id: active.id,
+              name: active.name,
+              status: 'running',
+              contactsCalled: active.contactsCalled,
+              totalContacts: active.totalContacts,
+              etaHours: Math.floor(minutes / 60),
+              etaMinutes: minutes % 60,
+              etaFinishTime: new Date(active.estimatedFinishTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+            };
+          })(),
           recentCampaigns: dashboardStats.recentCampaigns,
         });
       } catch (error) {
@@ -140,6 +155,32 @@ export default function DashboardHome() {
     
     loadData();
   }, []);
+
+  const handlePauseCampaign = async () => {
+    if (!stats?.activeCampaignProgress) return;
+    try {
+      await mockCampaignApi.pauseCampaign(stats.activeCampaignProgress.id);
+      const dashboardStats = await mockCampaignApi.getDashboardStats();
+      const active = dashboardStats.recentCampaigns.find((campaign) => campaign.status === 'running');
+      setStats((current) => current ? {
+        ...current,
+        activeCampaigns: dashboardStats.activeCampaigns,
+        activeCampaignProgress: active ? {
+          id: active.id,
+          name: active.name,
+          status: 'running',
+          contactsCalled: active.contactsCalled,
+          totalContacts: active.totalContacts,
+          etaHours: Math.floor(active.estimatedMinutesRemaining / 60),
+          etaMinutes: active.estimatedMinutesRemaining % 60,
+          etaFinishTime: new Date(active.estimatedFinishTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+        } : undefined,
+        recentCampaigns: dashboardStats.recentCampaigns,
+      } : current);
+    } catch (error) {
+      console.error('Failed to pause campaign', error);
+    }
+  };
 
   if (loading || !stats) {
     return (
@@ -197,7 +238,7 @@ export default function DashboardHome() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="outline" className="text-sm">Pause</Button>
+              <Button variant="outline" className="text-sm" onClick={handlePauseCampaign}>Pause</Button>
               <Link href={`/dashboard/campaigns/${stats.activeCampaignProgress.id}`}>
                 <Button variant="secondary" className="text-sm">View details</Button>
               </Link>
@@ -244,12 +285,11 @@ export default function DashboardHome() {
               <tbody>
                 {stats.recentCampaigns && stats.recentCampaigns.length > 0 ? (
                   stats.recentCampaigns.map((campaign) => (
-                    <tr 
+                    <tr
                       key={campaign.id} 
-                      className="border-b border-[rgb(var(--color-border))] last:border-0 hover:bg-[rgb(var(--color-muted))/30] transition-colors cursor-pointer"
-                      onClick={() => window.location.href = `/dashboard/campaigns/${campaign.id}`}
+                      className="border-b border-[rgb(var(--color-border))] last:border-0 hover:bg-[rgb(var(--color-muted))/30] transition-colors"
                     >
-                      <td className="py-3 px-4 text-sm font-medium text-[rgb(var(--color-foreground))]">{campaign.name}</td>
+                      <td className="py-3 px-4 text-sm font-medium text-[rgb(var(--color-foreground))]"><Link className="hover:underline" href={`/dashboard/campaigns/${campaign.id}`}>{campaign.name}</Link></td>
                       <td className="py-3 px-4"><StatusBadge status={campaign.status} /></td>
                       <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.totalContacts)}</td>
                       <td className="py-3 px-4 text-sm text-[rgb(var(--color-muted-foreground))]">{formatNumber(campaign.contactsCalled)}</td>

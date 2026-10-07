@@ -1,19 +1,20 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { mockCampaignApi } from '@/lib/mock-api/campaigns'
 import { Button } from '@/components/shared/Button'
-import { formatNumber, formatDuration, formatINR, cn } from '@/lib/utils'
+import { formatNumber, formatDuration, formatINR } from '@/lib/utils'
 import type { Campaign } from '@/types'
 
 export default function CampaignDetailPage() {
   const params = useParams()
-  const router = useRouter()
   const id = params.id as string
 
   const [campaign, setCampaign] = useState<Campaign | null>(null)
   const [loading, setLoading] = useState(true)
+  const [actionError, setActionError] = useState('')
+  const [actionLoading, setActionLoading] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -38,6 +39,19 @@ export default function CampaignDetailPage() {
   }
 
   const isRunning = campaign.status === 'running'
+  const updateCampaign = async (action: 'pauseCampaign' | 'resumeCampaign' | 'stopCampaign') => {
+    setActionError('')
+    setActionLoading(true)
+    try {
+      const updated = await mockCampaignApi[action](id)
+      if (!updated) throw new Error('Campaign was not found.')
+      setCampaign(updated)
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : 'Could not update this campaign.')
+    } finally {
+      setActionLoading(false)
+    }
+  }
   const progress = campaign.totalContacts > 0
     ? Math.min(100, Math.round((campaign.contactsCalled / campaign.totalContacts) * 100))
     : 0
@@ -50,15 +64,16 @@ export default function CampaignDetailPage() {
           <div className="mt-2 text-sm text-[rgb(var(--color-muted-foreground))]">Status: <span className="font-semibold text-[rgb(var(--color-primary))]">{campaign.status}</span></div>
         </div>
         <div className="flex gap-4">
-          <Button variant={isRunning ? "secondary" : "primary"}>
-            {isRunning ? 'Pause' : 'Resume'}
+          <Button variant={isRunning ? "secondary" : "primary"} disabled={actionLoading || ['completed', 'stopped', 'failed'].includes(campaign.status)} onClick={() => updateCampaign(isRunning ? 'pauseCampaign' : 'resumeCampaign')}>
+            {actionLoading ? 'Updating…' : isRunning ? 'Pause' : campaign.status === 'queued' ? 'Start' : 'Resume'}
           </Button>
-          <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950">Stop</Button>
+          <Button variant="outline" disabled={actionLoading || ['completed', 'stopped', 'failed'].includes(campaign.status)} onClick={() => window.confirm('Stop this campaign? You cannot resume it after stopping.') && updateCampaign('stopCampaign')} className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950">Stop</Button>
           <Button href={`/dashboard/campaigns/${id}/results`} variant="outline">
             View Results
           </Button>
         </div>
       </div>
+      {actionError && <p role="alert" className="text-sm text-red-600">{actionError}</p>}
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div className="bg-[rgb(var(--color-card))] p-4 rounded-[var(--radius-md)] border border-[rgb(var(--color-border))]">

@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useMemo, useState, useRef } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { WizardState, ColumnMapping } from "@/types";
 import { mockCampaignApi } from "@/lib/mock-api/campaigns";
+import { mockWalletApi } from "@/lib/mock-api/wallet";
 import { siteConfig } from "@/lib/config/site";
-import { cn, formatINR, formatDuration } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/shared/Button";
 import {
   UploadCloud,
@@ -13,11 +14,7 @@ import {
   AlertTriangle,
   XCircle,
   FileText,
-  Phone,
-  User,
-  Mail,
   SkipForward,
-  Settings,
   ChevronRight,
   ChevronLeft,
   Banknote,
@@ -115,7 +112,16 @@ export default function CampaignWizardPage() {
   ]);
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [walletBalance] = useState(4250); // Hardcoded mock balance
+  const [uploadError, setUploadError] = useState("");
+  const [mappingError, setMappingError] = useState("");
+  const [startError, setStartError] = useState("");
+  const [walletBalance, setWalletBalance] = useState(4250);
+
+  useEffect(() => {
+    mockWalletApi.getBalance().then(setWalletBalance).catch((error) => {
+      console.error("Could not load demo wallet balance", error);
+    });
+  }, []);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -144,15 +150,17 @@ export default function CampaignWizardPage() {
   };
 
   const handleFile = (file: File) => {
-    // Basic validation
-    const validTypes = [".xlsx", ".xls", ".csv", ".pdf"];
-    const isValid = validTypes.some((ext) =>
-      file.name.toLowerCase().endsWith(ext)
-    );
-    if (!isValid) {
-      alert("Invalid file type.");
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      setUploadError("Please upload a CSV file. Excel and PDF parsing are not connected in this demo.");
+      updateState({ file: undefined, fileName: undefined });
       return;
     }
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError("The CSV must be smaller than 10 MB.");
+      updateState({ file: undefined, fileName: undefined });
+      return;
+    }
+    setUploadError("");
     updateState({ file, fileName: file.name });
   };
 
@@ -173,11 +181,13 @@ export default function CampaignWizardPage() {
       updateState({
         parsedHeaders: res.headers,
         parsedRows: res.rows,
+        parsedTotalRows: res.totalRows,
         columnMappings: initialMappings,
       });
       nextStep();
     } catch (err) {
       console.error("Upload error", err);
+      setUploadError(err instanceof Error ? err.message : "The CSV could not be read.");
     } finally {
       setIsProcessing(false);
     }
@@ -193,6 +203,7 @@ export default function CampaignWizardPage() {
     if (!state.columnMappings) return;
     const newMappings = [...state.columnMappings];
     newMappings[index] = { ...newMappings[index], targetField };
+    setMappingError("");
     updateState({ columnMappings: newMappings });
   };
 
@@ -202,16 +213,21 @@ export default function CampaignWizardPage() {
 
   const handleMappingSubmit = () => {
     if (!hasPhoneMapped) {
-      alert("You must map at least one column to 'Phone Number'");
+      setMappingError("Map at least one column to Phone Number before continuing.");
       return;
     }
+    if (!state.parsedTotalRows) {
+      setMappingError("This CSV has no contact rows. Upload a file with at least one contact.");
+      return;
+    }
+    setMappingError("");
     setIsProcessing(true);
     // Mock processing step for data cleaning
     setTimeout(() => {
-      const totalRows = state.parsedRows?.length || 0;
+      const totalRows = state.parsedTotalRows ?? state.parsedRows?.length ?? 0;
       updateState({
         cleanedContacts: {
-          valid: Math.floor(totalRows * 0.9),
+          valid: totalRows > 0 ? Math.max(1, Math.floor(totalRows * 0.9)) : 0,
           duplicates: Math.floor(totalRows * 0.05),
           invalid: Math.floor(totalRows * 0.03),
           dndFiltered: Math.floor(totalRows * 0.02),
@@ -236,6 +252,7 @@ export default function CampaignWizardPage() {
       router.push(`/dashboard/campaigns/${camp.id}`);
     } catch (err) {
       console.error(err);
+      setStartError(err instanceof Error ? err.message : "Could not create the campaign.");
       setIsProcessing(false);
     }
   };
@@ -248,7 +265,7 @@ export default function CampaignWizardPage() {
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-[rgb(var(--color-foreground))]">Upload Contacts</h2>
         <p className="text-[rgb(var(--color-muted-foreground))]">
-          Upload a file containing your contact list. Supported formats: .csv, .xlsx, .xls, .pdf
+          Upload a CSV file containing your contact list (maximum 10 MB).
         </p>
       </div>
       <div
@@ -267,7 +284,7 @@ export default function CampaignWizardPage() {
           className="hidden"
           ref={fileInputRef}
           onChange={handleFileSelect}
-          accept=".csv,.xlsx,.xls,.pdf"
+          accept=".csv,text/csv"
         />
         {state.file ? (
           <>
@@ -293,6 +310,7 @@ export default function CampaignWizardPage() {
           </>
         )}
       </div>
+      {uploadError && <p role="alert" className="text-sm text-red-600">{uploadError}</p>}
       <div className="flex justify-end pt-4 border-t border-[rgb(var(--color-border))]">
         <Button onClick={handleUploadSubmit} disabled={!state.file || isProcessing}>
           {isProcessing ? "Processing..." : "Next Step"} <ChevronRight className="w-4 h-4 ml-2" />
@@ -362,6 +380,7 @@ export default function CampaignWizardPage() {
                   You must map at least one column to &apos;Phone Number&apos;.
         </div>
       )}
+      {mappingError && <p role="alert" className="text-sm text-red-600">{mappingError}</p>}
 
       <div className="flex justify-between pt-4 border-t border-[rgb(var(--color-border))]">
         <Button variant="outline" onClick={prevStep}>
@@ -694,6 +713,7 @@ export default function CampaignWizardPage() {
             {isProcessing ? "Starting..." : "Start Campaign"}
           </Button>
         </div>
+        {startError && <p role="alert" className="mt-4 text-sm text-red-600">{startError}</p>}
       </div>
     );
   };

@@ -15,6 +15,33 @@ export default function CampaignResultsPage() {
   const [loading, setLoading] = useState(true)
   const [selectedTranscript, setSelectedTranscript] = useState<CallResult | null>(null)
 
+  const exportResults = () => {
+    const headers = ['Name', 'Phone', 'Outcome', 'Duration (seconds)', 'Call date']
+    const rows = results.map((result) => [
+      result.contactName,
+      result.contactPhone,
+      result.outcome,
+      result.duration,
+      new Date(result.callStartedAt).toISOString(),
+    ])
+    const csv = [headers, ...rows]
+      .map((row) => row.map((value) => `"${String(value ?? '').replaceAll('"', '""')}"`).join(','))
+      .join('\r\n')
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `campaign-${id}-results.csv`
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const outcomes = [
+    { label: 'Interested', value: results.filter((result) => result.outcome === 'interested').length },
+    { label: 'Not Interested', value: results.filter((result) => result.outcome === 'not_interested').length },
+    { label: 'Callback', value: results.filter((result) => result.outcome === 'callback').length },
+    { label: 'No Answer', value: results.filter((result) => result.outcome === 'no_answer').length },
+  ]
+
   useEffect(() => {
     async function load() {
       try {
@@ -37,14 +64,14 @@ export default function CampaignResultsPage() {
     <div className="space-y-6 text-[rgb(var(--color-foreground))]">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Results — Campaign {id}</h1>
-        <Button variant="outline">Export to Excel</Button>
+        <Button variant="outline" onClick={exportResults}>Export CSV</Button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {['Interested', 'Not Interested', 'Callback', 'No Answer'].map(outcome => (
+        {outcomes.map(({ label: outcome, value }) => (
           <div key={outcome} className="bg-[rgb(var(--color-card))] p-4 rounded-[var(--radius-md)] border border-[rgb(var(--color-border))]">
             <div className="text-sm font-semibold">{outcome}</div>
-            <div className="text-2xl mt-1 text-[rgb(var(--color-primary))]">12</div>
+            <div className="text-2xl mt-1 text-[rgb(var(--color-primary))]">{value}</div>
           </div>
         ))}
       </div>

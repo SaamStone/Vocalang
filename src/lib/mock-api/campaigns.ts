@@ -9,7 +9,6 @@ import type {
   Contact,
   ContactOutcome,
   CallResult,
-  ContactBatch,
   DashboardStats,
   TranscriptMessage,
   WizardState,
@@ -41,6 +40,22 @@ const sampleTranscripts: Record<string, TranscriptMessage[]> = {
     { role: "agent", text: "Noted! Someone from our team will call you tomorrow afternoon. Thank you!", timestamp: 12 },
   ],
   no_answer: [],
+  inbound_issue: [
+    { role: "customer", text: "I am calling about an issue with my recent service request.", timestamp: 0 },
+    { role: "agent", text: "I can help with that. Could you describe what happened?", timestamp: 3 },
+    { role: "customer", text: "The update has not arrived yet. Please have someone follow up.", timestamp: 8 },
+    { role: "agent", text: "I have noted the issue and your team can follow up shortly.", timestamp: 13 },
+  ],
+  inbound_information: [
+    { role: "customer", text: "I would like more information about the service you offer.", timestamp: 0 },
+    { role: "agent", text: "Certainly. I can share the overview and arrange a follow-up if you need one.", timestamp: 4 },
+    { role: "customer", text: "Please send the details by message. Thank you.", timestamp: 10 },
+  ],
+  abusive: [
+    { role: "agent", text: "I understand you are upset. I can record the issue for the support team.", timestamp: 0 },
+    { role: "customer", text: "[Abusive language detected and redacted in this demo transcript.]", timestamp: 5 },
+    { role: "agent", text: "I am ending this call and will flag it for review.", timestamp: 9 },
+  ],
 };
 
 // --- Mock Data Generators ---
@@ -95,20 +110,51 @@ function generateMockContacts(campaignId: string, count: number): Contact[] {
 function generateCallResults(contacts: Contact[], campaignId: string): CallResult[] {
   return contacts
     .filter((c) => c.outcome)
-    .map((c) => ({
+    .map((c, index) => {
+      const abusive = index % 37 === 0;
+      const incoming = !abusive && index % 11 === 0;
+      const needsFollowUp = c.outcome === "callback";
+      const whatsappSent = !incoming && c.outcome === "interested" && index % 3 !== 0;
+      const duration = 30 + Math.floor(Math.random() * 180);
+      const callStartedAt = new Date(Date.now() - index * 30_000 - Math.random() * 30_000);
+      const disconnectReason = c.outcome === "busy"
+        ? "Recipient line was busy"
+        : c.outcome === "no_answer"
+          ? "No answer; the call ended without a conversation"
+          : undefined;
+      const transcriptKey = abusive ? "abusive" : incoming ? (index % 2 ? "inbound_issue" : "inbound_information") : c.outcome!;
+      return ({
       id: `call_${randomId()}`,
       contactId: c.id,
       campaignId,
       contactName: c.name,
       contactPhone: c.phone,
       outcome: c.outcome!,
-      duration: 30 + Math.floor(Math.random() * 180),
-      transcript: sampleTranscripts[c.outcome!] ?? sampleTranscripts.interested!,
+      duration,
+      transcript: sampleTranscripts[transcriptKey] ?? sampleTranscripts.interested!,
       recordingUrl: "#mock-recording",
-      callStartedAt: new Date(Date.now() - Math.random() * 86400000).toISOString(),
-      callEndedAt: new Date(Date.now() - Math.random() * 86400000 + 120000).toISOString(),
+      callStartedAt: callStartedAt.toISOString(),
+      callEndedAt: new Date(callStartedAt.getTime() + duration * 1000).toISOString(),
       retryNumber: 0,
-    }));
+      direction: incoming ? "incoming" as const : "outgoing" as const,
+      topic: abusive ? "Conduct review" : incoming ? (index % 2 ? "Service issue" : "Product information") : needsFollowUp ? "Requested follow-up" : "Campaign outreach",
+      summary: abusive
+        ? "Customer used abusive language; call was flagged for a human review."
+        : incoming
+          ? index % 2 ? "Customer called about an unresolved service issue and requested support follow-up." : "Customer called asking for product information and requested a message with details."
+          : needsFollowUp
+            ? "Customer asked to consider the offer and requested a call back later."
+            : c.outcome === "interested"
+              ? "Customer expressed interest in the offer."
+              : c.outcome === "not_interested"
+                ? "Customer declined the offer."
+                : disconnectReason ?? "Call completed; see the transcript for conversation details.",
+      sentiment: abusive ? "abusive" as const : needsFollowUp ? "follow_up" as const : c.outcome === "interested" ? "positive" as const : c.outcome === "not_interested" ? "negative" as const : "neutral" as const,
+      whatsappStatus: abusive || incoming ? "not_sent" as const : whatsappSent ? "sent" as const : c.outcome === "interested" ? "failed" as const : "not_sent" as const,
+      disconnectReason,
+      abusive,
+    });
+  });
 }
 
 // Pre-generated mock campaigns
@@ -264,6 +310,15 @@ export const mockCampaignApi = {
     return mockResultsMap[campaignId] ?? [];
   },
 
+  async getRecentCallResults(limit?: number, direction?: "incoming" | "outgoing"): Promise<CallResult[]> {
+    await sleep(MOCK_DELAY);
+    const calls = Object.values(mockResultsMap)
+      .flat()
+      .sort((a, b) => new Date(b.callStartedAt).getTime() - new Date(a.callStartedAt).getTime())
+      .filter((call) => !direction || call.direction === direction);
+    return typeof limit === "number" ? calls.slice(0, limit) : calls;
+  },
+
   async getCallResult(resultId: string): Promise<CallResult | null> {
     await sleep(MOCK_DELAY);
     for (const results of Object.values(mockResultsMap)) {
@@ -329,7 +384,7 @@ export const mockCampaignApi = {
   async resumeCampaign(id: string): Promise<Campaign | null> {
     await sleep(MOCK_DELAY);
     const campaign = mockCampaigns.find((c) => c.id === id);
-    if (campaign && (campaign.status === "paused" || campaign.status === "low_balance")) {
+    if (campaign && (campaign.status === "queued" || campaign.status === "paused" || campaign.status === "low_balance")) {
       campaign.status = "running";
     }
     return campaign ?? null;
@@ -351,17 +406,39 @@ export const mockCampaignApi = {
     rows: Record<string, string>[];
     totalRows: number;
   }> {
-    await sleep(MOCK_DELAY * 2);
-    // Return mock parsed data regardless of actual file
-    const headers = ["Name", "Phone Number", "Email", "City", "Notes"];
-    const rows = Array.from({ length: Math.min(20, 50 + Math.floor(Math.random() * 200)) }, (_, i) => ({
-      "Name": randomName(),
-      "Phone Number": randomPhone(),
-      "Email": `contact${i + 1}@example.com`,
-      "City": ["Hyderabad", "Mumbai", "Delhi", "Bangalore", "Chennai"][Math.floor(Math.random() * 5)]!,
-      "Notes": ["New lead", "Follow up", "Warm lead", "Cold lead", ""][Math.floor(Math.random() * 5)]!,
-    }));
-    return { headers, rows, totalRows: 50 + Math.floor(Math.random() * 200) };
+    await sleep(MOCK_DELAY);
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      throw new Error("Only CSV files can be parsed in this demo. Export your contact list as CSV and try again.");
+    }
+    const text = (await file.text()).replace(/^\uFEFF/, "");
+    const records: string[][] = [];
+    let record: string[] = [];
+    let value = "";
+    let quoted = false;
+    for (let index = 0; index < text.length; index += 1) {
+      const char = text[index]!;
+      if (char === '"') {
+        if (quoted && text[index + 1] === '"') { value += '"'; index += 1; }
+        else quoted = !quoted;
+      } else if (char === "," && !quoted) {
+        record.push(value.trim()); value = "";
+      } else if ((char === "\n" || char === "\r") && !quoted) {
+        if (char === "\r" && text[index + 1] === "\n") index += 1;
+        record.push(value.trim()); value = "";
+        if (record.some((cell) => cell.length > 0)) records.push(record);
+        record = [];
+      } else {
+        value += char;
+      }
+    }
+    if (quoted) throw new Error("This CSV has an unclosed quoted field. Please fix the file and upload it again.");
+    record.push(value.trim());
+    if (record.some((cell) => cell.length > 0)) records.push(record);
+    const headers = records.shift()?.map((header) => header.trim()) ?? [];
+    if (!headers.length || !headers.some(Boolean)) throw new Error("The CSV needs a header row before its contact data.");
+    const data = records.filter((row) => row.some((cell) => cell.length > 0));
+    const rows = data.slice(0, 20).map((row) => Object.fromEntries(headers.map((header, index) => [header, row[index] ?? ""])));
+    return { headers, rows, totalRows: data.length };
   },
 
   /** Calculate estimate for the wizard */

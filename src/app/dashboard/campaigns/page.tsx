@@ -48,12 +48,12 @@ export default function CampaignListPage() {
   }, []);
 
   const filteredCampaigns = campaigns.filter(c => {
-    const matchesStatus = statusFilter === 'All' || c.status.toLowerCase() === statusFilter.toLowerCase();
+    const matchesStatus = statusFilter === 'All' || c.status.toLowerCase() === statusFilter.toLowerCase().replaceAll(' ', '_');
     const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesStatus && matchesSearch;
   });
 
-  const statuses = ['All', 'Running', 'Paused', 'Completed', 'Stopped'];
+  const statuses = ['All', 'Queued', 'Running', 'Paused', 'Low Balance', 'Completed', 'Stopped', 'Failed'];
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-6">
