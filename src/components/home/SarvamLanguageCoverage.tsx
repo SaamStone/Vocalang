@@ -36,6 +36,21 @@ const speechToTextLanguages = [
 
 type Capability = "voice" | "speech";
 
+const languageTints = [
+  "border-violet-200/80 bg-violet-50/80 dark:border-violet-300/15 dark:bg-violet-950/25",
+  "border-rose-200/80 bg-rose-50/75 dark:border-rose-300/15 dark:bg-rose-950/20",
+  "border-amber-200/80 bg-amber-50/75 dark:border-amber-300/15 dark:bg-amber-950/20",
+  "border-sky-200/80 bg-sky-50/75 dark:border-sky-300/15 dark:bg-sky-950/20",
+  "border-emerald-200/80 bg-emerald-50/75 dark:border-emerald-300/15 dark:bg-emerald-950/20",
+  "border-indigo-200/80 bg-indigo-50/75 dark:border-indigo-300/15 dark:bg-indigo-950/20",
+  "border-fuchsia-200/80 bg-fuchsia-50/75 dark:border-fuchsia-300/15 dark:bg-fuchsia-950/20",
+  "border-orange-200/80 bg-orange-50/75 dark:border-orange-300/15 dark:bg-orange-950/20",
+  "border-cyan-200/80 bg-cyan-50/75 dark:border-cyan-300/15 dark:bg-cyan-950/20",
+  "border-teal-200/80 bg-teal-50/75 dark:border-teal-300/15 dark:bg-teal-950/20",
+  "border-purple-200/80 bg-purple-50/75 dark:border-purple-300/15 dark:bg-purple-950/20",
+  "border-lime-200/80 bg-lime-50/75 dark:border-lime-300/15 dark:bg-lime-950/20",
+];
+
 export function SarvamLanguageCoverage() {
   const [capability, setCapability] = useState<Capability>("voice");
   const languages = capability === "voice" ? voiceAgentLanguages : speechToTextLanguages;
@@ -86,9 +101,9 @@ export function SarvamLanguageCoverage() {
         </div>
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4">
-          {languages.map((language) => (
-            <article key={language.code} className="group flex min-h-[86px] items-center gap-3 rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-background))] p-3.5 transition-colors hover:border-[rgb(var(--color-accent))/0.45] sm:p-4">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[rgb(var(--color-muted))] text-lg font-semibold text-[rgb(var(--color-foreground))]" lang={language.code.split("-")[0]}>
+          {languages.map((language, index) => (
+            <article key={language.code} className={cn("group flex min-h-[86px] items-center gap-3 rounded-2xl border p-3.5 transition duration-200 hover:-translate-y-0.5 hover:shadow-sm sm:p-4", languageTints[index % languageTints.length])}>
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/70 bg-white/75 text-lg font-semibold text-[rgb(var(--color-foreground))] shadow-sm dark:border-white/10 dark:bg-white/5" lang={language.code.split("-")[0]}>
                 {language.native}
               </span>
               <span className="min-w-0">
@@ -99,15 +114,6 @@ export function SarvamLanguageCoverage() {
           ))}
         </div>
 
-        <div className="mt-5 rounded-2xl bg-[rgb(var(--color-muted))] p-4 sm:flex sm:items-start sm:justify-between sm:gap-5">
-          <p className="text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">
-            Vocalang&apos;s current demo focus is Telugu, Hindi, and English. Sarvam&apos;s broader model coverage does not mean every language is enabled in Vocalang today; the connected agent configuration determines what clients can use.
-          </p>
-          <div className="mt-3 flex shrink-0 gap-3 text-xs font-semibold sm:mt-0">
-            <a className="text-[rgb(var(--color-foreground))] underline decoration-[rgb(var(--color-border))] underline-offset-4 hover:decoration-current" href="https://docs.sarvam.ai/conversations/overview" target="_blank" rel="noreferrer">Voice agent source</a>
-            <a className="text-[rgb(var(--color-foreground))] underline decoration-[rgb(var(--color-border))] underline-offset-4 hover:decoration-current" href="https://docs.sarvam.ai/api-reference/speech-to-text/transcribe" target="_blank" rel="noreferrer">Speech source</a>
-          </div>
-        </div>
       </div>
     </div>
   );

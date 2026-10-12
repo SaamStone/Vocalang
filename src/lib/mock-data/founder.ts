@@ -1,6 +1,8 @@
 export type FounderSection =
   | "Overview"
   | "Clients"
+  | "Inbound Calls"
+  | "Outbound Calls"
   | "Registrations"
   | "Integrations"
   | "Audit log"
@@ -34,7 +36,7 @@ export type RegistrationRequest = {
 };
 
 export const founderSections: FounderSection[] = [
-  "Overview", "Clients", "Registrations", "Integrations", "Audit log", "Founder approvals",
+  "Overview", "Clients", "Inbound Calls", "Outbound Calls", "Registrations", "Integrations", "Audit log", "Founder approvals",
 ];
 
 export const founderClients: FounderClient[] = [

@@ -58,7 +58,7 @@ export function LoginForm() {
             <label htmlFor="password" className="text-sm font-medium text-[rgb(var(--color-foreground))]">
               Password
             </label>
-            <Link href="/forgot-password" className="text-sm text-[rgb(var(--color-primary))] hover:underline">
+            <Link href="/forgot-password" className="text-sm text-[rgb(var(--color-link))] hover:underline">
               Forgot password?
             </Link>
           </div>
@@ -88,7 +88,7 @@ export function LoginForm() {
 
       <p className="mt-6 text-center text-sm text-[rgb(var(--color-muted-foreground))]">
         Don&apos;t have an account?{' '}
-        <Link href="/register" className="text-[rgb(var(--color-primary))] hover:underline font-medium">
+        <Link href="/register" className="text-[rgb(var(--color-link))] hover:underline font-medium">
           Sign up
         </Link>
       </p>

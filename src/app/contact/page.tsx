@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/lib/config/site';
 import { t } from '@/lib/i18n';
@@ -16,18 +16,12 @@ import { Button } from '@/components/shared/Button';
 // };
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 3000);
-    }, 1500);
+    setIsSuccess(true);
+    window.setTimeout(() => setIsSuccess(false), 5000);
   };
 
   return (
@@ -102,16 +96,15 @@ export default function ContactPage() {
                   type="submit" 
                   size="lg" 
                   className="w-full"
-                  disabled={isSubmitting || isSuccess}
+                  disabled={isSuccess}
                 >
-                  {isSubmitting ? (
-                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>
-                  ) : isSuccess ? (
-                    'Message Sent!'
+                  {isSuccess ? (
+                    'Preview ready'
                   ) : (
                     <><Send className="mr-2 h-4 w-4" /> Send Message</>
                   )}
                 </Button>
+                {isSuccess && <p role="status" aria-live="polite" className="text-center text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Preview only: no message was sent. Email delivery will be connected later.</p>}
               </form>
             </div>
           </ScrollReveal>

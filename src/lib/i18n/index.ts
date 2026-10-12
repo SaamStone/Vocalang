@@ -26,8 +26,8 @@ const en = {
   "hero.cta.signup": "Sign up free",
 
   // --- Demo ---
-  "demo.title": "Hear it in action",
-  "demo.subtitle": "Listen to a sample conversation in your industry",
+  "demo.title": "See the full calling workflow",
+  "demo.subtitle": "Choose an industry and explore the journey from first outreach to a clear next step.",
   "demo.playing": "Playing...",
   "demo.paused": "Paused",
   "demo.play": "Play demo",

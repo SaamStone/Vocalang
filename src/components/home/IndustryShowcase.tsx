@@ -23,9 +23,9 @@ function IndustryCard({ industry, duplicate = false }: { industry: (typeof siteC
     >
       <div className="industry-showcase-art relative flex h-48 items-center justify-center overflow-hidden rounded-[1.2rem] p-6 sm:h-52">
         <span className="industry-showcase-orbit absolute h-36 w-36 rounded-full border sm:h-44 sm:w-44" aria-hidden="true" />
-        <span className="absolute left-5 top-5 rounded-full border border-white/50 bg-white/50 px-3 py-1.5 text-[.62rem] font-semibold tracking-[.14em] text-[rgb(var(--color-foreground))] backdrop-blur-sm">{art.label}</span>
-        <span className="absolute right-5 top-5 font-mono text-xs text-[rgb(var(--color-foreground))/0.55]">{art.stat} / 04</span>
-        <span className="industry-showcase-icon relative z-10 grid h-24 w-24 place-items-center rounded-[1.8rem] border border-white/70 bg-white/65 text-[rgb(var(--color-foreground))] shadow-[0_18px_50px_rgba(60,45,35,.12)] backdrop-blur-sm transition duration-300 group-hover:scale-105 sm:h-28 sm:w-28">
+        <span className="absolute left-5 top-5 rounded-full border border-white/80 bg-white/85 px-3 py-1.5 text-[.62rem] font-semibold tracking-[.14em] text-slate-900 backdrop-blur-sm">{art.label}</span>
+        <span className="absolute right-5 top-5 font-mono text-xs text-slate-900/70">{art.stat} / 04</span>
+        <span className="industry-showcase-icon relative z-10 grid h-24 w-24 place-items-center rounded-[1.8rem] border border-white/90 bg-white/85 text-slate-900 shadow-[0_18px_50px_rgba(60,45,35,.12)] backdrop-blur-sm transition duration-300 group-hover:scale-105 sm:h-28 sm:w-28">
           <Icon className="h-10 w-10 stroke-[1.35]" aria-hidden="true" />
         </span>
         <span className="absolute bottom-5 right-5 flex items-end gap-1" aria-hidden="true">

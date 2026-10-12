@@ -6,9 +6,11 @@ import { Button } from '@/components/shared/Button';
 export function VerifyForm() {
   const [emailCode, setEmailCode] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
+  const [notice, setNotice] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setNotice('Verification is a preview only. Connect the authentication service before codes can be checked.');
   };
 
   return (
@@ -26,6 +28,8 @@ export function VerifyForm() {
             <input
               id="emailCode"
               type="text"
+              inputMode="numeric"
+              pattern="[0-9]{6}"
               maxLength={6}
               value={emailCode}
               onChange={(e) => setEmailCode(e.target.value)}
@@ -34,7 +38,7 @@ export function VerifyForm() {
               required
               aria-label="Email Verification Code"
             />
-            <Button type="button" variant="outline" className="px-3">
+            <Button type="button" variant="outline" className="px-3" onClick={() => setNotice('Email code delivery is not connected yet.') }>
               Resend
             </Button>
           </div>
@@ -46,6 +50,8 @@ export function VerifyForm() {
             <input
               id="phoneCode"
               type="text"
+              inputMode="numeric"
+              pattern="[0-9]{6}"
               maxLength={6}
               value={phoneCode}
               onChange={(e) => setPhoneCode(e.target.value)}
@@ -54,7 +60,7 @@ export function VerifyForm() {
               required
               aria-label="Phone Verification Code"
             />
-            <Button type="button" variant="outline" className="px-3">
+            <Button type="button" variant="outline" className="px-3" onClick={() => setNotice('Phone code delivery is not connected yet.') }>
               Resend
             </Button>
           </div>
@@ -63,6 +69,7 @@ export function VerifyForm() {
         <Button type="submit" className="w-full mt-2">
           Verify Codes
         </Button>
+        <p role="status" aria-live="polite" className="min-h-5 text-center text-xs text-[rgb(var(--color-muted-foreground))]">{notice}</p>
       </form>
     </div>
   );

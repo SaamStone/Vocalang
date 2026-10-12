@@ -2,18 +2,14 @@ import Link from "next/link";
 import {
   ArrowRight,
   BarChart3,
-  Clock3,
-  FileSpreadsheet,
-  Globe2,
   Mic2,
-  ListChecks,
-  Plus,
   ShieldCheck,
   Upload,
 } from "lucide-react";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { Button } from "@/components/shared/Button";
-import { DemoPlayer } from "@/components/home/DemoPlayer";
+import { WorkflowShowcase } from "@/components/home/WorkflowShowcase";
+import { DayToDayShowcase } from "@/components/home/DayToDayShowcase";
 import { SarvamLanguageCoverage } from "@/components/home/SarvamLanguageCoverage";
 import { IndustryShowcase } from "@/components/home/IndustryShowcase";
 import { PricingPlans } from "@/components/shared/PricingPlans";
@@ -22,25 +18,17 @@ import { siteConfig } from "@/lib/config/site";
 import { t } from "@/lib/i18n";
 import { faqItems, pricingPlans } from "@/lib/mock-data";
 
-const steps = [
-  { icon: Upload, number: "01", title: "Bring your contact list", body: "Upload a spreadsheet and review cleaned, validated contacts before a campaign begins." },
-  { icon: Mic2, number: "02", title: "Set up your agent", body: "Choose an industry, language, and voice. Add the questions your agent should ask and the business details it should use for your requirements." },
-  { icon: BarChart3, number: "03", title: "Follow every outcome", body: "Track campaign progress and review call outcomes, transcripts, and exports in one place." },
-];
-
-const features = [
-  { icon: Clock3, title: "A live finish estimate", body: "See an estimated campaign duration and finish time before you start." },
-  { icon: Plus, title: "Keep campaigns moving", body: "Add another contact batch to a running campaign and keep the queue together." },
-  { icon: Globe2, title: "Conversations in Indian languages", body: "Start with Telugu, Hindi, and English, with supported languages kept configurable." },
-  { icon: ListChecks, title: "Your questions, your call flow", body: "Add the questions you want the agent to ask and the business details it should use for each campaign." },
-  { icon: FileSpreadsheet, title: "Clear call records", body: "Review outcome tags, transcripts, and campaign data from a single workspace." },
-];
-
 const trustPoints = [
   "Private-by-default file and recording access",
   "Account-level data separation built into the platform plan",
   "Clear AI and recording disclosures in call flows",
   "Calling windows and do-not-call checks in the workflow",
+];
+
+const steps = [
+  { icon: Upload, number: "01", title: "Bring your contact list", body: "Upload a spreadsheet and review cleaned, validated contacts before a campaign begins." },
+  { icon: Mic2, number: "02", title: "Set up your agent", body: "Choose an industry, language, and voice. Add the questions your agent should ask and the business details it should use for your requirements." },
+  { icon: BarChart3, number: "03", title: "Follow every outcome", body: "Track campaign progress and review call outcomes, transcripts, and exports in one place." },
 ];
 
 function SectionIntro({ eyebrow, title, body }: { eyebrow: string; title: string; body: string }) {
@@ -59,7 +47,7 @@ export default function HomePage() {
       <section className="marketing-hero relative overflow-hidden">
         <div className="marketing-hero-wash absolute inset-0" aria-hidden="true" />
         <div className="marketing-hero-orb absolute right-0 top-0 h-96 w-96 rounded-full blur-[128px]" aria-hidden="true" />
-        <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-20 text-center sm:px-6 sm:pb-28 sm:pt-28 lg:px-8 lg:pt-36">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 pb-20 pt-20 text-center sm:px-6 sm:pb-28 sm:pt-28 lg:px-8 lg:pt-36">
           <ScrollReveal className="mx-auto max-w-4xl">
             <p className="marketing-kicker justify-center">AI voice agents, built for India</p>
             <h1 className="marketing-display text-5xl leading-[1.02] text-[rgb(var(--color-foreground))] sm:text-6xl lg:text-7xl">
@@ -84,11 +72,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="demo-preview" className="scroll-mt-24 bg-[rgb(var(--color-background))] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section id="demo-preview" className="relative isolate scroll-mt-24 overflow-hidden bg-[rgb(var(--color-muted))] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <div className="pointer-events-none absolute -left-32 top-24 -z-10 h-80 w-80 rounded-full bg-[rgb(var(--color-accent))] opacity-[0.07] blur-[100px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute -right-24 bottom-0 -z-10 h-96 w-96 rounded-full bg-violet-400 opacity-[0.06] blur-[110px]" aria-hidden="true" />
         <div className="mx-auto max-w-7xl">
-          <SectionIntro eyebrow="Hear a real workflow" title={t("demo.title")} body={t("demo.subtitle")} />
+          <SectionIntro eyebrow="Vocalang workflow preview" title={t("demo.title")} body={t("demo.subtitle")} />
           <ScrollReveal>
-            <DemoPlayer />
+            <WorkflowShowcase />
           </ScrollReveal>
         </div>
       </section>
@@ -123,15 +113,7 @@ export default function HomePage() {
       <section id="features" className="scroll-mt-24 bg-[rgb(var(--color-muted))] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionIntro eyebrow="Designed for the day-to-day" title="Everything around the call matters" body="A campaign is easier to run when setup, timing, and follow-up are clear." />
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {features.map(({ icon: Icon, title, body }) => (
-              <article key={title} className="rounded-[1.25rem] border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] p-6">
-                <Icon className="h-5 w-5 text-[rgb(var(--color-accent))]" aria-hidden="true" />
-                <h3 className="mt-7 font-semibold text-[rgb(var(--color-foreground))]">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">{body}</p>
-              </article>
-            ))}
-          </div>
+          <ScrollReveal><DayToDayShowcase /></ScrollReveal>
         </div>
       </section>
 

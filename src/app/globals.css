@@ -15,6 +15,7 @@
   --color-primary-hover: 52 49 45;     /* #4f46e5 indigo-600 */
   --color-primary-light: 244 241 236;   /* #eef2ff indigo-50 */
   --color-primary-dark: 12 12 12;      /* #4338ca indigo-700 */
+  --color-link: 142 57 35;
 
   /* --- Neutral Palette --- */
   --color-background: 250 249 247;
@@ -96,6 +97,7 @@
   --color-primary-hover: 132 51 29;   /* deeper terracotta hover */
   --color-primary-light: 53 39 33;      /* soft terracotta surface */
   --color-primary-dark: 183 73 41;     /* warm terracotta emphasis */
+  --color-link: 247 133 91;
 
   --color-background: 19 19 18;          /* warm charcoal */
   --color-foreground: 244 242 238;      /* slate-100 */
@@ -230,7 +232,8 @@ h1, h2 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.
 .auth-page-glow { position: absolute; z-index: 0; width: 22rem; height: 22rem; border-radius: 9999px; filter: blur(90px); opacity: .16; pointer-events: none; animation: auth-glow-float 16s ease-in-out infinite alternate; }
 .auth-page-glow--one { top: 8%; left: 5%; background: #ef9b71; }
 .auth-page-glow--two { right: 4%; bottom: 5%; background: #ada0c9; animation-delay: -6s; }
-.auth-story { background: linear-gradient(145deg, rgba(255,247,239,.92), rgba(239,228,236,.9) 52%, rgba(220,234,238,.88)); }
+  .auth-story { background: linear-gradient(145deg, rgba(255,247,239,.92), rgba(239,228,236,.9) 52%, rgba(220,234,238,.88)); }
+  .dark .auth-story { background: linear-gradient(145deg, rgb(39, 34, 32), rgb(37, 32, 40) 52%, rgb(30, 39, 41)); }
 .auth-story-orb { position: absolute; z-index: 0; width: 17rem; height: 17rem; border-radius: 9999px; filter: blur(2px); opacity: .5; pointer-events: none; }
 .auth-story-orb--one { top: 35%; right: -8rem; background: radial-gradient(circle, rgba(255,255,255,.68), rgba(232,145,103,.14) 65%, transparent 72%); }
 .auth-story-orb--two { bottom: 2rem; left: -7rem; background: radial-gradient(circle, rgba(255,255,255,.64), rgba(156,177,201,.16) 65%, transparent 72%); }

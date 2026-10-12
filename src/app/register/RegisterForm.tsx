@@ -136,9 +136,9 @@ export function RegisterForm() {
           />
           <label htmlFor="terms" className="text-sm text-[rgb(var(--color-muted-foreground))]">
             I agree to the{' '}
-            <Link href="/legal/terms" className="text-[rgb(var(--color-primary))] hover:underline">Terms & Conditions</Link>,{' '}
-            <Link href="/legal/privacy" className="text-[rgb(var(--color-primary))] hover:underline">Privacy Policy</Link>, and{' '}
-            <Link href="/legal/acceptable-use" className="text-[rgb(var(--color-primary))] hover:underline">Acceptable Use Policy</Link>.
+            <Link href="/legal/terms" className="text-[rgb(var(--color-link))] hover:underline">Terms & Conditions</Link>,{' '}
+            <Link href="/legal/privacy" className="text-[rgb(var(--color-link))] hover:underline">Privacy Policy</Link>, and{' '}
+            <Link href="/legal/acceptable-use" className="text-[rgb(var(--color-link))] hover:underline">Acceptable Use Policy</Link>.
           </label>
         </div>
 
@@ -149,7 +149,7 @@ export function RegisterForm() {
 
       <p className="mt-6 text-center text-sm text-[rgb(var(--color-muted-foreground))]">
         Already have an account?{' '}
-        <Link href="/login" className="text-[rgb(var(--color-primary))] hover:underline font-medium">
+        <Link href="/login" className="text-[rgb(var(--color-link))] hover:underline font-medium">
           Log in
         </Link>
       </p>

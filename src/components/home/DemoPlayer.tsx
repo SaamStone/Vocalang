@@ -72,27 +72,32 @@ export function DemoPlayer() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl">
-      <div className="mb-5 flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Choose a sample industry">
-        {siteConfig.industries.map((item, index) => (
-          <button
-            key={item.slug}
-            type="button"
-            onClick={() => handleTabChange(index)}
-            aria-pressed={index === activeTab}
-            className={cn(
-              "rounded-full border px-4 py-2.5 text-sm font-medium transition-colors",
-              index === activeTab
-                ? "border-[rgb(var(--color-foreground))] bg-[rgb(var(--color-foreground))] text-[rgb(var(--color-background))]"
-                : "border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-foreground))]"
-            )}
-          >
-            {item.name}
-          </button>
-        ))}
+    <div className="mx-auto max-w-6xl">
+      <section className="overflow-hidden rounded-[2rem] border border-violet-200/70 bg-[rgb(var(--color-card))] p-2 shadow-[0_28px_90px_-38px_rgba(55,42,32,0.32)] ring-4 ring-violet-200/35 dark:border-violet-400/15 dark:ring-violet-950/50">
+        <div className="flex flex-col gap-3 p-2 sm:p-3">
+        <p className="px-1 text-[10px] font-semibold uppercase tracking-[.17em] text-[rgb(var(--color-muted-foreground))] sm:text-xs">Choose a sample scenario</p>
+        <div className="grid grid-cols-2 gap-1 rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-muted))] p-1 sm:grid-cols-4" role="group" aria-label="Choose a sample industry">
+          {siteConfig.industries.map((item, index) => (
+            <button
+              key={item.slug}
+              type="button"
+              onClick={() => handleTabChange(index)}
+              aria-pressed={index === activeTab}
+              className={cn(
+                "flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 py-2 text-center text-[11px] font-semibold leading-tight transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-ring))] sm:min-h-14 sm:text-sm",
+                index === activeTab
+                  ? "bg-[rgb(var(--color-card))] text-[rgb(var(--color-foreground))] shadow-[0_2px_10px_rgba(28,27,25,0.08)] ring-1 ring-[rgb(var(--color-border))] dark:bg-[rgb(var(--color-background))] dark:ring-white/10"
+                  : "text-[rgb(var(--color-muted-foreground))] hover:bg-[rgb(var(--color-card))/0.65] hover:text-[rgb(var(--color-foreground))]"
+              )}
+            >
+              <span className="font-mono text-[10px] opacity-55">0{index + 1}</span>
+              {item.name}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <section className="overflow-hidden rounded-[1.75rem] border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] shadow-[var(--shadow-xl)]">
+      <div className="overflow-hidden rounded-[1.55rem] border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))]">
         <div className="grid lg:grid-cols-[0.82fr_1.18fr]">
           <div className="relative isolate flex min-h-[330px] flex-col overflow-hidden bg-[#201f1d] p-6 text-white sm:p-8 lg:min-h-[400px]">
             <div className="pointer-events-none absolute -right-20 -top-20 -z-10 h-64 w-64 rounded-full bg-[rgb(var(--color-accent))] opacity-20 blur-[90px]" />
@@ -210,6 +215,7 @@ export function DemoPlayer() {
             </div>
           </div>
         </div>
+      </div>
       </section>
 
       <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-5 py-4 sm:flex-row">

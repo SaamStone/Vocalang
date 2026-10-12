@@ -42,13 +42,13 @@ export function DemoClient() {
             <ScrollReveal className="space-y-6">
               <h2 className="text-3xl font-bold text-[rgb(var(--color-foreground))]">How it works</h2>
               <p className="text-lg text-[rgb(var(--color-muted-foreground))]">
-                Fill out the form with your phone number and preferred settings. Within seconds:
+                Once the calling service is connected, the demo is intended to:
               </p>
               <ul className="space-y-4 mt-6">
                 {[
-                  'Our AI will call YOUR number directly',
-                  'You get one free demo call to test the capabilities',
-                  'Experience a natural, fluid conversation in your chosen language',
+                  'Place a demo call to the number you provide',
+                  'Let you try the voice agent before setting up a campaign',
+                  'Show how a conversation works in the selected language',
                 ].map((step, i) => (
                   <li key={i} className="flex items-center text-[rgb(var(--color-muted-foreground))]">
                     <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[rgb(var(--color-success-light))] flex items-center justify-center mr-4">
@@ -119,8 +119,9 @@ export function DemoClient() {
                   </div>
 
                   <Button type="submit" className="w-full py-4 text-lg mt-4">
-                    {submitted ? '✓ Demo request sent!' : 'Call me now'}
+                    {submitted ? 'Request previewed' : 'Preview demo request'}
                   </Button>
+                  <p className="text-center text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Preview only: no call is placed and no request is sent while calling APIs are disconnected.</p>
                 </form>
               </div>
             </ScrollReveal>
