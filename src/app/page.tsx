@@ -63,7 +63,7 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={150} className="mt-12 flex flex-wrap items-center justify-center gap-2.5">
-            <span className="mr-1 text-xs font-medium uppercase tracking-[.16em] text-[rgb(var(--color-muted-foreground))]">Speaks</span>
+            <span className="mr-1 text-xs font-medium uppercase tracking-[.16em] text-[rgb(var(--color-muted-foreground))]">Sample languages</span>
             {siteConfig.supportedVoiceLanguages.map((language) => (
               <span key={language} className="rounded-full border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))/0.8] px-4 py-2 text-sm text-[rgb(var(--color-foreground))]">{language}</span>
             ))}
@@ -134,7 +134,7 @@ export default function HomePage() {
           <div>
             <p className="marketing-kicker">Trust by design</p>
             <h2 className="text-4xl leading-tight text-[rgb(var(--color-foreground))] sm:text-5xl">Clear, careful calling from the start</h2>
-            <p className="mt-5 leading-7 text-[rgb(var(--color-muted-foreground))]">Vocalang is being built around transparent AI conversations and practical controls for contact data.</p>
+            <p className="mt-5 leading-7 text-[rgb(var(--color-muted-foreground))]">Vocalang is developing multilingual voice tools and practical controls for business workflows.</p>
             <Link href="/trust" className="mt-6 inline-flex items-center font-semibold text-[rgb(var(--color-foreground))]">How we approach trust <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </div>
           <ul className="grid gap-3 sm:grid-cols-2">
@@ -145,7 +145,7 @@ export default function HomePage() {
 
       <section id="pricing" className="scroll-mt-24 bg-[rgb(var(--color-muted))] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro eyebrow="Simple to understand" title={t("pricing.title")} body="Choose a voice tier and pay its listed rate per minute." />
+          <SectionIntro eyebrow="Simple to understand" title={t("pricing.title")} body="Compare indicative per-minute rates and contact us for a confirmed quote." />
           <PricingPlans plans={pricingPlans} />
         </div>
       </section>

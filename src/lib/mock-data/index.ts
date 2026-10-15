@@ -63,7 +63,7 @@ export const faqItems: readonly { question: string; answer: string }[] = [
       "Vocalang is developing multilingual AI voice tools for businesses in India. The current website lets you request a product demo; calling campaigns are not available for self-service yet.",
   },
   {
-    question: "How does the free demo work?",
+    question: "How do I request a product demo?",
     answer:
       "Send a request through the Book a demo form. Our team will review it and contact you to arrange a demonstration.",
   },

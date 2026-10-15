@@ -115,7 +115,7 @@ export const siteConfig = {
       slug: "education",
       name: "Educational Institutes",
       icon: "GraduationCap",
-      shortDescription: "Boost admissions with timely follow-ups.",
+      shortDescription: "Explore admissions follow-up workflows.",
       description:
         "Call every enquiry, remind students about deadlines, and collect feedback — without hiring a call center.",
       useCases: [
@@ -137,7 +137,7 @@ export const siteConfig = {
       slug: "study-abroad",
       name: "Study Abroad",
       icon: "Plane",
-      shortDescription: "Convert enquiries into enrolled students faster.",
+      shortDescription: "Explore study-abroad enquiry workflows.",
       description:
         "A potential workflow could answer common programme questions and help arrange consultations. Discuss requirements with our team.",
       useCases: [
@@ -159,7 +159,7 @@ export const siteConfig = {
       slug: "recruiting",
       name: "Recruiting Agencies",
       icon: "Users",
-      shortDescription: "Screen candidates at scale, day and night.",
+      shortDescription: "Explore candidate screening workflows.",
       description:
         "A potential workflow could collect candidate interest and availability before a recruiter follows up. Discuss requirements with our team.",
       useCases: [
