@@ -1,19 +1,12 @@
 /* ============================================================
-   MOCK DATA — Pricing Plans
-   PLACEHOLDER values. All prices will be decided later.
+   Vocalang pricing benchmark based on publicly listed Outpero rates.
    ============================================================ */
 
 export interface PricingPlan {
   readonly id: string;
   readonly name: string;
   readonly description: string;
-  readonly price: number;           // INR per month (0 = free tier)
-  readonly annualPrice?: number | null; // monthly equivalent billed annually; null until confirmed
-  readonly priceLabel: string;
   readonly perMinuteRate: number;   // INR per minute
-  readonly includedMinutes: number;
-  readonly maxAgents: number;       // simultaneous agents
-  readonly voicesAllowed: readonly string[];
   readonly features: readonly string[];
   readonly popular?: boolean;
   readonly cta: string;
@@ -21,72 +14,38 @@ export interface PricingPlan {
 
 export const pricingPlans: readonly PricingPlan[] = [
   {
-    id: "starter",
-    name: "Starter",
-    description: "For small teams getting started with AI calling.",
-    price: 0,
-    annualPrice: 0,
-    priceLabel: "Free trial",
-    perMinuteRate: 0,
-    includedMinutes: 5,
-    maxAgents: 1,
-    voicesAllowed: ["male"],
+    id: "value",
+    name: "Value",
+    description: "The lowest per-minute rate for everyday calling.",
+    perMinuteRate: 3,
     features: [
-      "1 free demo call",
-      "5 included minutes",
-      "1 simultaneous agent",
-      "Male voice",
-      "Basic results dashboard",
-      "Email support",
+      "Billed for connected talk time",
+      "No setup fee or long-term contract",
     ],
-    cta: "Start free",
+    cta: "Contact us",
   },
   {
-    id: "growth",
-    name: "Growth",
-    description: "For growing businesses running regular campaigns.",
-    price: 2999,
-    annualPrice: null,
-    priceLabel: "₹2,999/mo",
-    perMinuteRate: 1.5,
-    includedMinutes: 500,
-    maxAgents: 3,
-    voicesAllowed: ["male", "female"],
+    id: "standard",
+    name: "Standard",
+    description: "A balanced voice tier for regular customer conversations.",
+    perMinuteRate: 5,
     features: [
-      "500 included minutes",
-      "Up to 3 simultaneous agents",
-      "Male & female voices",
-      "Full transcripts & recordings",
-      "Excel export",
-      "Priority support",
-      "Add contacts mid-campaign",
+      "Billed for connected talk time",
+      "No setup fee or long-term contract",
     ],
     popular: true,
-    cta: "Get started",
+    cta: "Contact us",
   },
   {
-    id: "scale",
-    name: "Scale",
-    description: "For teams running high-volume campaigns daily.",
-    price: 9999,
-    annualPrice: null,
-    priceLabel: "₹9,999/mo",
-    perMinuteRate: 1.0,
-    includedMinutes: 2000,
-    maxAgents: 10,
-    voicesAllowed: ["male", "female"],
+    id: "premium",
+    name: "Premium",
+    description: "The highest voice tier for calls where voice quality matters most.",
+    perMinuteRate: 7,
     features: [
-      "2,000 included minutes",
-      "Up to 10 simultaneous agents",
-      "Male & female voices",
-      "Full transcripts & recordings",
-      "Excel export",
-      "Dedicated support",
-      "Add contacts mid-campaign",
-      "Custom calling windows",
-      "API access",
+      "Billed for connected talk time",
+      "No setup fee or long-term contract",
     ],
-    cta: "Get started",
+    cta: "Contact us",
   },
 
 ] as const;

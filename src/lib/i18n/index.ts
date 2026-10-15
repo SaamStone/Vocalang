@@ -86,8 +86,8 @@ const en = {
 
   // --- Pricing ---
   "pricing.title": "Simple, transparent pricing",
-  "pricing.subtitle": "Pay only for what you use. No hidden fees.",
-  "pricing.placeholder": "PLACEHOLDER — Final prices coming soon",
+  "pricing.subtitle": "Choose a voice tier and pay its listed rate per connected minute.",
+  "pricing.placeholder": "Pricing is subject to confirmation.",
   "pricing.perMinute": "per minute",
   "pricing.cta": "Get started",
   "pricing.includes": "Includes",

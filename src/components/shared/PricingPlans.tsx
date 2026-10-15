@@ -1,39 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Star } from "lucide-react";
 import { Button } from "@/components/shared/Button";
 import type { PricingPlan } from "@/lib/mock-data";
-import { formatINR } from "@/lib/utils";
-
-type BillingCycle = "monthly" | "annual";
 
 export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
-  const [billingCycle, setBillingCycle] = useState<BillingCycle>("monthly");
-
   return (
     <>
-      <div className="mb-10 flex flex-col items-center gap-3">
-        <div className="inline-flex rounded-full border border-[rgb(var(--color-border))] bg-[rgb(var(--color-muted))] p-1" role="group" aria-label="Choose billing period">
-          <button type="button" onClick={() => setBillingCycle("monthly")} aria-pressed={billingCycle === "monthly"} className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${billingCycle === "monthly" ? "bg-[rgb(var(--color-card))] text-[rgb(var(--color-foreground))] shadow-[var(--shadow-sm)]" : "text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-foreground))]"}`}>
-            Monthly
-          </button>
-          <button type="button" onClick={() => setBillingCycle("annual")} aria-pressed={billingCycle === "annual"} className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${billingCycle === "annual" ? "bg-[rgb(var(--color-card))] text-[rgb(var(--color-foreground))] shadow-[var(--shadow-sm)]" : "text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-foreground))]"}`}>
-            Annual
-          </button>
-        </div>
-        <p className="text-sm text-[rgb(var(--color-muted-foreground))]" aria-live="polite">
-          {billingCycle === "annual" ? "Annual rates are placeholders until confirmed." : "Monthly rates are placeholders until confirmed."}
-        </p>
-      </div>
-
       <div className="mb-20 grid grid-cols-1 gap-6 text-left md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {plans.map((plan, index) => {
           const isPopular = Boolean(plan.popular);
-          const isEnterprise = plan.price < 0;
-          const isAnnualUnpriced = billingCycle === "annual" && !isEnterprise && plan.price > 0 && plan.annualPrice == null;
-          const displayedPrice = billingCycle === "annual" ? plan.annualPrice : plan.price;
 
           return (
             <motion.article
@@ -55,29 +32,17 @@ export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
                 <p className="mt-2 min-h-12 text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">{plan.description}</p>
 
                 <div className="mt-6 min-h-[5.25rem]">
-                  {isEnterprise ? (
-                    <p className="text-4xl font-semibold tracking-tight text-[rgb(var(--color-foreground))]">Custom</p>
-                  ) : isAnnualUnpriced ? (
-                    <p className="max-w-[12rem] pt-1 text-lg font-semibold leading-6 text-[rgb(var(--color-foreground))]">Annual rate to be confirmed</p>
-                  ) : displayedPrice === 0 ? (
-                    <p className="text-4xl font-semibold tracking-tight text-[rgb(var(--color-foreground))]">Free</p>
-                  ) : (
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-4xl font-semibold tracking-tight text-[rgb(var(--color-foreground))]" aria-live="polite">{formatINR(displayedPrice ?? plan.price)}</span>
-                      <span className="text-sm text-[rgb(var(--color-muted-foreground))]">/ month</span>
-                    </div>
-                  )}
-                  {!isEnterprise && !isAnnualUnpriced && displayedPrice !== 0 && (
-                    <p className="mt-1 text-xs text-[rgb(var(--color-muted-foreground))]">Billed {billingCycle === "monthly" ? "monthly" : "annually"}</p>
-                  )}
-                  {plan.perMinuteRate > 0 && <p className="mt-2 text-sm font-medium text-[rgb(var(--color-accent))]">{formatINR(plan.perMinuteRate)} per minute</p>}
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-4xl font-semibold tracking-tight text-[rgb(var(--color-foreground))]">₹{plan.perMinuteRate}</span>
+                    <span className="text-sm text-[rgb(var(--color-muted-foreground))]">/ connected minute</span>
+                  </div>
                 </div>
 
                 <Button href="/contact" variant={isPopular ? "primary" : "outline"} className="mb-7 mt-2 w-full">
                   Contact us
                 </Button>
 
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[.12em] text-[rgb(var(--color-foreground))]">Includes</p>
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[.12em] text-[rgb(var(--color-foreground))]">Pricing details</p>
                 <ul className="space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">
@@ -91,6 +56,9 @@ export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
           );
         })}
       </div>
+      <p className="mx-auto -mt-12 mb-16 max-w-3xl text-center text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">
+        Calls are billed by connected talk time. Confirm any phone-number charges with our team.
+      </p>
     </>
   );
 }

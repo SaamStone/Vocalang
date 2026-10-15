@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
-import { Check, AlertTriangle } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { pricingPlans } from '@/lib/mock-data';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
-import { Button } from '@/components/shared/Button';
 import { PricingPlans } from '@/components/shared/PricingPlans';
 import { t } from '@/lib/i18n';
 
@@ -20,14 +19,9 @@ export default function PricingPage() {
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[rgb(var(--color-foreground))] mb-6">
               {t("pricing.title")}
             </h1>
-            <p className="text-xl text-[rgb(var(--color-muted-foreground))] max-w-2xl mx-auto mb-10">
+            <p className="text-xl text-[rgb(var(--color-muted-foreground))] max-w-2xl mx-auto mb-16">
               {t("pricing.subtitle")}
             </p>
-
-            <div className="inline-flex items-center gap-2 px-5 py-3 bg-[rgb(var(--color-warning-light))] text-[rgb(var(--color-warning))] border border-[rgb(var(--color-warning))/0.3] rounded-[var(--radius-lg)] mb-16">
-              <AlertTriangle className="h-5 w-5 flex-shrink-0" />
-              <span className="font-medium text-sm">{t("pricing.placeholder")}</span>
-            </div>
           </ScrollReveal>
 
           <PricingPlans plans={pricingPlans} />
@@ -38,7 +32,7 @@ export default function PricingPage() {
               <h3 className="text-2xl font-bold text-[rgb(var(--color-foreground))] mb-8 text-center">All plans include</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  'GST invoices for input tax credit',
+                  'GST-compliant invoices',
                   'Secure data encryption at rest and in transit',
                   '24/7 monitoring and high availability',
                   'Access to standard voice models',
