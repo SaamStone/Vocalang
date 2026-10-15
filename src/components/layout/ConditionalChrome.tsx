@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 
 export function ConditionalChrome({
   children,
@@ -11,11 +12,14 @@ export function ConditionalChrome({
   header: ReactNode;
   footer: ReactNode;
 }) {
+  const pathname = usePathname();
+  const isFounderArea = pathname.startsWith("/founder");
+
   return (
     <>
-      {header}
-      <div id="main-content" className="flex-1 pt-[4.5rem]">{children}</div>
-      {footer}
+      {!isFounderArea && header}
+      <div id="main-content" className={`flex-1 ${isFounderArea ? "" : "pt-[4.5rem]"}`}>{children}</div>
+      {!isFounderArea && footer}
     </>
   );
 }
