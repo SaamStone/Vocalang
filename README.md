@@ -24,3 +24,5 @@ The `/demo` and `/contact` forms submit to the server-side `/api/demo-request` r
 - `CLOUDFLARE_API_TOKEN` (server-side secret with D1 Read and D1 Write permissions)
 
 For local development, copy `.env.example` to `.env.local` and fill in these values. The D1 table is created automatically when the first form is submitted. Production submissions fail with a friendly error if D1 is not configured; they are not written to ephemeral serverless disk.
+
+The private Founder Dashboard at `/founder-preview` reads recent website submissions from the same D1 table. Set `FOUNDER_DASHBOARD_PASSWORD` and `FOUNDER_SESSION_SECRET` in the deployment environment to enable founder sign-in; the session secret must be at least 32 characters. Keep all five values server-side and redeploy after changing them. In local development, the dashboard reads D1 when configured or the local JSONL fallback otherwise. The Website data page shows the storage source, and the Integrations page reports D1 as connected only after a successful data read.

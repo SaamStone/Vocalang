@@ -3,7 +3,7 @@ export type FounderSection =
   | "Clients"
   | "Inbound Calls"
   | "Outbound Calls"
-  | "Registrations"
+  | "Website data"
   | "Integrations"
   | "Audit log"
   | "Founder approvals";
@@ -25,18 +25,8 @@ export type FounderClient = {
   revenue: number;
 };
 
-export type RegistrationRequest = {
-  id: string;
-  name: string;
-  business: string;
-  email: string;
-  industry: string;
-  submittedAt: string;
-  verification: "Email verified" | "Phone pending" | "Business pending";
-};
-
 export const founderSections: FounderSection[] = [
-  "Overview", "Clients", "Inbound Calls", "Outbound Calls", "Registrations", "Integrations", "Audit log", "Founder approvals",
+  "Overview", "Clients", "Inbound Calls", "Outbound Calls", "Website data", "Integrations", "Audit log", "Founder approvals",
 ];
 
 export const founderClients: FounderClient[] = [
@@ -46,12 +36,6 @@ export const founderClients: FounderClient[] = [
   { id: "VL-2045", name: "Ananya Iyer", business: "Meridian Global Pathways", email: "ananya@example.test", lastLogin: "Yesterday, 11:21 AM", lastLogout: "Yesterday, 5:09 PM", requestedCalls: 6470, payments: 4, walletBalance: 9200, campaignStatus: "Completed", eta: "Finished at 4:40 PM", trialUsed: true, cost: 8100, revenue: 15300 },
   { id: "VL-2044", name: "Rohan Nair", business: "PeopleFirst Talent", email: "rohan@example.test", lastLogin: "Oct 3, 2:14 PM", lastLogout: "Oct 3, 2:51 PM", requestedCalls: 4110, payments: 2, walletBalance: 0, campaignStatus: "Queued", eta: "Starts at 9:00 AM", trialUsed: false, cost: 5200, revenue: 9600 },
   { id: "VL-2043", name: "Meera Kulkarni", business: "Horizon Homes", email: "meera@example.test", lastLogin: "Oct 2, 4:35 PM", lastLogout: "Oct 2, 5:12 PM", requestedCalls: 2860, payments: 1, walletBalance: 1800, campaignStatus: "Completed", eta: "Finished at 5:12 PM", trialUsed: true, cost: 3600, revenue: 7100 },
-];
-
-export const registrationRequests: RegistrationRequest[] = [
-  { id: "REG-0912", name: "Sana Qureshi", business: "Cedar & Stone Realty", email: "sana@example.test", industry: "Real estate", submittedAt: "12 min ago", verification: "Email verified" },
-  { id: "REG-0911", name: "Dev Menon", business: "BrightPath Academy", email: "dev@example.test", industry: "Education", submittedAt: "48 min ago", verification: "Phone pending" },
-  { id: "REG-0910", name: "Ishita Rao", business: "Atlas Study Abroad", email: "ishita@example.test", industry: "Study abroad", submittedAt: "2 hours ago", verification: "Business pending" },
 ];
 
 export const dailyCalls = [

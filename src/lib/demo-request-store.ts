@@ -1,8 +1,9 @@
 import { randomUUID } from "node:crypto";
-import { appendFile, mkdir } from "node:fs/promises";
+import { appendFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 export type DemoRequestRecord = {
+  id?: string;
   submittedAt: string;
   name: string;
   phone: string;
@@ -26,6 +27,18 @@ function d1IsConfigured() {
   return demoRequestStorage === "cloudflare-d1";
 }
 
+function removeExactDuplicates(records: DemoRequestRecord[]) {
+  const seen = new Set<string>();
+  return records.filter((record) => {
+    const key = [record.name, record.email, record.phone, record.organization, record.callVolume, record.industry, record.language, record.notes]
+      .map((value) => value.trim().toLowerCase())
+      .join("\u0000");
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 async function d1Query(sql: string, params: string[] = []) {
   if (!d1IsConfigured()) throw new Error("Cloudflare D1 is not configured.");
 
@@ -44,12 +57,14 @@ async function d1Query(sql: string, params: string[] = []) {
 
   const payload = await response.json() as {
     success?: boolean;
-    result?: Array<{ success?: boolean }>;
+    result?: Array<{ success?: boolean; results?: unknown[] }>;
   };
 
   if (!response.ok || !payload.success || payload.result?.some((item) => item.success === false)) {
     throw new Error("Cloudflare D1 request failed.");
   }
+
+  return payload.result?.flatMap((result) => result.results ?? []) ?? [];
 }
 
 async function ensureD1Table() {
@@ -98,4 +113,56 @@ export async function saveDemoRequest(record: DemoRequestRecord) {
 
   await mkdir(storeDirectory, { recursive: true });
   await appendFile(storePath, `${JSON.stringify(record)}\n`, { encoding: "utf8", flag: "a" });
+}
+
+export async function listDemoRequests(limit = 200): Promise<DemoRequestRecord[]> {
+  if (d1IsConfigured()) {
+    await ensureD1Table();
+    const rows = await d1Query(
+      `SELECT id, submitted_at, name, phone, email, organization, call_volume, industry, language, notes
+       FROM demo_requests ORDER BY submitted_at DESC LIMIT ?;`,
+      [String(Math.max(1, Math.min(500, Math.floor(limit))))],
+    ) as Array<{
+      id: string;
+      submitted_at: string;
+      name: string;
+      phone: string;
+      email: string;
+      organization: string;
+      call_volume: string;
+      industry: string;
+      language: string;
+      notes: string;
+    }>;
+
+    return removeExactDuplicates(rows.map((row) => ({
+      id: row.id,
+      submittedAt: row.submitted_at,
+      name: row.name,
+      phone: row.phone,
+      email: row.email,
+      organization: row.organization,
+      callVolume: row.call_volume,
+      industry: row.industry,
+      language: row.language,
+      notes: row.notes,
+    })));
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("Cloudflare D1 must be configured before reading production demo requests.");
+  }
+
+  const contents = await readFile(storePath, "utf8").catch((error: NodeJS.ErrnoException) => {
+    if (error.code === "ENOENT") return "";
+    throw error;
+  });
+
+  const records = contents
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .slice(-Math.max(1, Math.min(500, Math.floor(limit))))
+    .reverse()
+    .map((line) => JSON.parse(line) as DemoRequestRecord);
+  return removeExactDuplicates(records);
 }
