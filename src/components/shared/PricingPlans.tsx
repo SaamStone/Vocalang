@@ -23,7 +23,7 @@ export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
             >
               {isPopular && (
                 <div className="absolute -top-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-[rgb(var(--color-accent))] px-4 py-1.5 text-xs font-semibold text-white">
-                  <Star className="h-3.5 w-3.5 fill-current" aria-hidden="true" /> Recommended
+                  <Star className="h-3.5 w-3.5 fill-current" aria-hidden="true" /> Most Popular
                 </div>
               )}
 
@@ -39,7 +39,7 @@ export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
                 </div>
 
                 <Button href="/contact" variant={isPopular ? "primary" : "outline"} className="mb-7 mt-2 w-full">
-                  Contact us
+                  {plan.cta}
                 </Button>
 
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[.12em] text-[rgb(var(--color-foreground))]">Pricing details</p>
