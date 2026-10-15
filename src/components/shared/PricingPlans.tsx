@@ -34,7 +34,7 @@ export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
                 <div className="mt-6 min-h-[5.25rem]">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-4xl font-semibold tracking-tight text-[rgb(var(--color-foreground))]">₹{plan.perMinuteRate}</span>
-                    <span className="text-sm text-[rgb(var(--color-muted-foreground))]">/ connected minute</span>
+                    <span className="text-sm text-[rgb(var(--color-muted-foreground))]">/ min</span>
                   </div>
                 </div>
 
@@ -57,7 +57,7 @@ export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
         })}
       </div>
       <p className="mx-auto -mt-12 mb-16 max-w-3xl text-center text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">
-        Calls are billed by connected talk time. Confirm any phone-number charges with our team.
+        Call charges are based on minutes used. Confirm any phone-number charges with our team.
       </p>
     </>
   );

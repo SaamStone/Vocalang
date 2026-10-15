@@ -86,7 +86,7 @@ const en = {
 
   // --- Pricing ---
   "pricing.title": "Simple, transparent pricing",
-  "pricing.subtitle": "Choose a voice tier and pay its listed rate per connected minute.",
+  "pricing.subtitle": "Choose a voice tier and pay its listed rate per minute.",
   "pricing.placeholder": "Pricing is subject to confirmation.",
   "pricing.perMinute": "per minute",
   "pricing.cta": "Get started",

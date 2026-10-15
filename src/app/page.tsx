@@ -146,7 +146,7 @@ export default function HomePage() {
 
       <section id="pricing" className="scroll-mt-24 bg-[rgb(var(--color-muted))] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro eyebrow="Simple to understand" title={t("pricing.title")} body="Choose a voice tier and pay its listed rate per connected minute." />
+          <SectionIntro eyebrow="Simple to understand" title={t("pricing.title")} body="Choose a voice tier and pay its listed rate per minute." />
           <PricingPlans plans={pricingPlans} />
         </div>
       </section>
