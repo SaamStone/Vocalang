@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import {
-  Activity, ArrowUpRight, AudioLines, Check, CheckCircle2, Clock3,
-  Download, FileAudio, FileText, ListChecks, Phone, Plus, ShieldCheck,
+  Activity, AudioLines, Check, CheckCircle2,
+  Download, FileAudio, FileText, ListChecks, Phone, ShieldCheck,
   Sparkles, Upload, Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -38,13 +38,13 @@ export function DayToDayShowcase() {
         <div className="grid overflow-hidden rounded-[1.55rem] lg:grid-cols-[.78fr_1.22fr]">
           <aside className="relative isolate flex min-h-[310px] flex-col justify-between overflow-hidden bg-[#201f1d] p-6 text-white sm:p-9">
             <div className="pointer-events-none absolute -bottom-24 -right-10 -z-10 h-72 w-72 rounded-full bg-[#c276ff]/20 blur-[95px]" />
-            <div className="flex items-center justify-between gap-3"><span className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.18em] text-white/60"><Sparkles className="h-3.5 w-3.5 text-violet-300" aria-hidden="true" /> The Vocalang workflow</span><span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] text-white/55">Preview</span></div>
+            <div className="flex items-center justify-between gap-3"><span className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.18em] text-white/60"><Sparkles className="h-3.5 w-3.5 text-violet-300" aria-hidden="true" /> Illustrative product preview</span><span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] text-white/55">Sample data</span></div>
             <div className="py-10" key={selected.id}>
               <p className="font-mono text-xs text-violet-300">STEP {selected.number} / 04</p>
               <h3 className="mt-4 max-w-md text-3xl font-medium leading-tight tracking-tight text-white sm:text-[2.6rem]">{selected.title}</h3>
               <p className="mt-4 max-w-md text-sm leading-6 text-white/65">{selected.description}</p>
             </div>
-            <p className="max-w-md border-t border-white/10 pt-4 text-xs leading-5 text-white/60">Vocalang’s current demo focus is Telugu, Hindi, and English. Sarvam’s broader model coverage does not mean every language is enabled in Vocalang today; the connected agent configuration determines what clients can use.</p>
+            <p className="max-w-md border-t border-white/10 pt-4 text-xs leading-5 text-white/60">The current Vocalang demo focuses on Telugu, Hindi, and English. Additional languages may be offered as the service develops.</p>
           </aside>
           <div className="min-w-0 bg-[rgb(var(--color-background))] p-4 sm:p-7 lg:p-8" key={`${selected.id}-preview`}>
             <div className="flex items-center justify-between gap-4 border-b border-[rgb(var(--color-border))] pb-4"><div><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-[rgb(var(--color-muted-foreground))]">Workspace preview</p><h4 className="mt-1 text-sm font-semibold text-[rgb(var(--color-foreground))]">{selected.label}</h4></div><span className="inline-flex items-center gap-1.5 rounded-full border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-2.5 py-1.5 text-[10px] text-[rgb(var(--color-muted-foreground))]"><span className="h-1.5 w-1.5 rounded-full bg-violet-400" /> Example data</span></div>

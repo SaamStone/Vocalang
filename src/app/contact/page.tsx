@@ -2,7 +2,6 @@
 
 import { useState, type FormEvent } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { siteConfig } from '@/lib/config/site';
 import { t } from '@/lib/i18n';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
@@ -135,6 +134,7 @@ export default function ContactPage() {
                 </Button>
                 {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
                 {isSuccess && <p role="status" aria-live="polite" className="text-center text-sm leading-5 text-emerald-800">Thank you. Our team will reach out to you soon.</p>}
+                <p className="text-center text-xs leading-5 text-[var(--color-muted-foreground)]">Submitting this form lets us use your details to respond. See our <a className="underline underline-offset-2" href="/legal/privacy">Privacy Policy</a>.</p>
               </form>
             </div>
           </ScrollReveal>
@@ -142,25 +142,25 @@ export default function ContactPage() {
           <ScrollReveal delay={0.2}>
             <div className="space-y-8">
               <div className="grid sm:grid-cols-2 gap-6">
-                <div className="bg-[var(--color-card)] p-6 rounded-2xl border border-[var(--color-border)]">
+                {siteConfig.contact?.email && <div className="bg-[var(--color-card)] p-6 rounded-2xl border border-[var(--color-border)]">
                   <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center mb-4">
                     <Mail className="w-5 h-5" />
                   </div>
                   <h3 className="font-semibold text-[var(--color-foreground)] mb-1">Email</h3>
-                  <a href={`mailto:${siteConfig.contact?.email || 'hello@vocalang.com'}`} className="text-[var(--color-muted-foreground)] hover:text-[var(--color-primary)] transition-colors">
-                    {siteConfig.contact?.email || 'hello@vocalang.com'}
+                  <a href={`mailto:${siteConfig.contact.email}`} className="text-[var(--color-muted-foreground)] hover:text-[var(--color-primary)] transition-colors">
+                    {siteConfig.contact.email}
                   </a>
-                </div>
+                </div>}
 
-                <div className="bg-[var(--color-card)] p-6 rounded-2xl border border-[var(--color-border)]">
+                {siteConfig.contact?.phone && <div className="bg-[var(--color-card)] p-6 rounded-2xl border border-[var(--color-border)]">
                   <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center mb-4">
                     <Phone className="w-5 h-5" />
                   </div>
                   <h3 className="font-semibold text-[var(--color-foreground)] mb-1">Phone</h3>
-                  <a href={`tel:${siteConfig.contact?.phone || '+918000000000'}`} className="text-[var(--color-muted-foreground)] hover:text-[var(--color-primary)] transition-colors">
-                    {siteConfig.contact?.phone || '+91 800 000 0000'}
+                  <a href={`tel:${siteConfig.contact.phone}`} className="text-[var(--color-muted-foreground)] hover:text-[var(--color-primary)] transition-colors">
+                    {siteConfig.contact.phone}
                   </a>
-                </div>
+                </div>}
 
                 <div className="bg-[var(--color-card)] p-6 rounded-2xl border border-[var(--color-border)] sm:col-span-2">
                   <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center mb-4">
@@ -173,9 +173,6 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-[var(--color-muted)] w-full h-64 rounded-3xl border border-[var(--color-border)] flex items-center justify-center">
-                <span className="text-[var(--color-muted-foreground)] font-medium">Map coming soon</span>
-              </div>
             </div>
           </ScrollReveal>
         </div>

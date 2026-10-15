@@ -5,48 +5,46 @@ import { Button } from '@/components/shared/Button';
 
 export const metadata: Metadata = {
   title: 'Trust & Security',
-  description: 'Enterprise-grade protection for your voice calling data.',
+  description: 'Current data handling and security status for the Vocalang website prototype.',
 };
 
 const securityFeatures = [
   {
-    title: 'End-to-end encryption',
-    description: 'All data is encrypted in transit using TLS 1.3 and at rest using AES-256 standards.',
+    title: 'Website form storage',
+    description: 'Demo and contact requests are stored in Cloudflare D1 and shown in the private founder dashboard.',
     icon: Lock,
   },
   {
-    title: 'Data isolation',
-    description: 'Your customer data is strictly isolated. Each account has complete data separation enforced at the database level.',
+    title: 'Founder-only dashboard',
+    description: 'The dashboard requires founder sign-in and is not linked from public website navigation.',
     icon: Shield,
   },
   {
-    title: 'Indian compliance',
-    description: 'Designed for compliance with TRAI regulations, DND requirements, and the Digital Personal Data Protection Act, 2023.',
+    title: 'Calling is not enabled',
+    description: 'The current website does not place calls, store call recordings, or accept contact-list uploads.',
     icon: Scale,
   },
   {
-    title: 'Secure recordings',
-    description: 'Call recordings are stored with role-based access control, expiring signed URLs, and automatic retention policies.',
+    title: 'Limited data collection',
+    description: 'The website collects only the information visitors submit through demo and contact forms.',
     icon: FileAudio,
   },
   {
-    title: 'Data deletion on request',
-    description: 'Full data deletion capabilities upon request. You control your data and can remove it at any time.',
+    title: 'Deletion requests',
+    description: 'Visitors can request correction or deletion through the contact form; requests are handled manually.',
     icon: Trash2,
   },
   {
-    title: 'Audit logging',
-    description: 'Comprehensive, immutable audit trails for all system access and administrative actions.',
+    title: 'Product status',
+    description: 'Customer workspaces, calling, and campaign features are still in development and are not available for self-service.',
     icon: ClipboardList,
   },
 ];
 
 const commitments = [
-  'Regular penetration testing and vulnerability scanning',
-  'Strict access controls for our engineering team',
-  'Incident response plan with 24/7 coverage',
-  'Vendor risk management program',
-  'Continuous monitoring of security posture',
+  'Keep service credentials in server-side environment variables',
+  'Require founder sign-in to access submitted form data',
+  'Review and update this page as the product is built',
 ];
 
 export default function TrustPage() {
@@ -59,7 +57,7 @@ export default function TrustPage() {
               Trust & Security
             </h1>
             <p className="text-xl text-[rgb(var(--color-muted-foreground))] max-w-2xl mx-auto">
-              Enterprise-grade protection for your voice calling data and campaigns.
+              A clear summary of what the current website stores and what is still being built.
             </p>
           </ScrollReveal>
 
@@ -84,7 +82,7 @@ export default function TrustPage() {
           {/* Commitments + Compliance */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-20">
             <ScrollReveal>
-              <h2 className="text-3xl font-bold text-[rgb(var(--color-foreground))] mb-8">Our commitments</h2>
+              <h2 className="text-3xl font-bold text-[rgb(var(--color-foreground))] mb-8">Current safeguards</h2>
               <ul className="space-y-4">
                 {commitments.map((item, i) => (
                   <li key={i} className="flex items-start gap-4">
@@ -101,10 +99,10 @@ export default function TrustPage() {
               <div className="bg-[rgb(var(--color-primary-light))] border border-[rgb(var(--color-primary))/0.2] p-8 md:p-10 rounded-[var(--radius-2xl)]">
                 <h3 className="text-xl font-bold text-[rgb(var(--color-foreground))] mb-4 flex items-center gap-3">
                   <Scale className="w-6 h-6 text-[rgb(var(--color-primary))]" />
-                  Regulatory Compliance
+                  Compliance status
                 </h3>
                 <p className="text-[rgb(var(--color-muted-foreground))] leading-relaxed mb-6">
-                  We are designing for compliance with TRAI regulations, DND (Do Not Call) requirements, and the Digital Personal Data Protection Act, 2023. Our compliance posture is reviewed by legal professionals before launch.
+                  Calling, contact uploads, and customer workspaces are not enabled on this website. Applicable operational and legal requirements must be reviewed before those features are offered. This page is not a certification or legal compliance claim.
                 </p>
                 <Button href="/contact">
                   Contact for security questions

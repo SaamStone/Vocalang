@@ -20,9 +20,9 @@ export interface SocialLink {
 
 export const siteConfig = {
   name: "Vocalang",
-  tagline: "AI Voice Agents That Call For You",
+  tagline: "Multilingual AI voice tools for Indian businesses",
   description:
-    "Upload your contacts, let intelligent AI voice agents call them, and get structured results — in Telugu, Hindi, or English.",
+    "Vocalang is developing multilingual AI voice tools for Indian businesses. Request a demo to discuss your workflow.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   env: (process.env.NEXT_PUBLIC_APP_ENV ?? "development") as
     | "development"
@@ -49,7 +49,7 @@ export const siteConfig = {
       { label: "Pricing", href: "/#pricing" },
       { label: "FAQ", href: "/#faq" },
     ] as readonly NavItem[],
-    cta: { label: "Try free demo", href: "/demo" },
+    cta: { label: "Book a demo", href: "/demo" },
     login: { label: "Log in", href: "/login" },
   },
 
@@ -59,7 +59,7 @@ export const siteConfig = {
       { label: "How it works", href: "/#how-it-works" },
       { label: "Industries", href: "/#industries" },
       { label: "Pricing", href: "/#pricing" },
-      { label: "Free demo", href: "/demo" },
+      { label: "Book a demo", href: "/demo" },
       { label: "FAQ", href: "/#faq" },
     ] as readonly NavItem[],
     company: [
@@ -81,9 +81,9 @@ export const siteConfig = {
 
   /** Contact info */
   contact: {
-    email: "hello@vocalang.com",
-    supportEmail: "support@vocalang.com",
-    phone: "+91-XXXXXXXXXX",
+    email: "",
+    supportEmail: "",
+    phone: "",
     address: "Hyderabad, Telangana, India",
   },
 
@@ -93,9 +93,9 @@ export const siteConfig = {
       slug: "real-estate",
       name: "Real Estate",
       icon: "Building2",
-      shortDescription: "Qualify leads and schedule site visits automatically.",
+      shortDescription: "Explore lead qualification and site-visit workflows.",
       description:
-        "Your AI agent calls every new lead within minutes, qualifies their budget and timeline, and books site visits — so your sales team only meets serious buyers.",
+        "A potential workflow could qualify a lead's budget and timeline and help arrange a site visit. Discuss requirements with our team.",
       useCases: [
         "New lead follow-up within 5 minutes",
         "Budget and timeline qualification",
@@ -139,7 +139,7 @@ export const siteConfig = {
       icon: "Plane",
       shortDescription: "Convert enquiries into enrolled students faster.",
       description:
-        "Reach every prospective student quickly, answer common questions about programmes, visas and deadlines, and schedule consultations.",
+        "A potential workflow could answer common programme questions and help arrange consultations. Discuss requirements with our team.",
       useCases: [
         "New lead qualification",
         "University shortlisting consultations",
@@ -161,7 +161,7 @@ export const siteConfig = {
       icon: "Users",
       shortDescription: "Screen candidates at scale, day and night.",
       description:
-        "Pre-screen hundreds of applicants, confirm interest and availability, verify basic requirements, and schedule interviews — all before a recruiter picks up the phone.",
+        "A potential workflow could collect candidate interest and availability before a recruiter follows up. Discuss requirements with our team.",
       useCases: [
         "Initial candidate screening",
         "Interview scheduling",
@@ -186,13 +186,6 @@ export const siteConfig = {
     timezone: "Asia/Kolkata",
     maxRetries: 3,
     avgCallDurationSeconds: 120,
-  },
-
-  /** CONFIGURABLE: Free trial config */
-  freeTrial: {
-    callsPerUser: 1,
-    dailyGlobalCap: 100,
-    requireApproval: false,
   },
 
   /** Legal document versions (track changes for compliance) */

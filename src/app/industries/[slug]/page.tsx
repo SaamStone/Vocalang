@@ -66,7 +66,8 @@ export default async function IndustryDetailPage({ params }: Props) {
       <div className="max-w-6xl mx-auto w-full px-6 grid md:grid-cols-2 gap-16 mt-16">
         <section>
           <ScrollReveal>
-            <h2 className="text-3xl font-bold mb-8 text-[var(--color-foreground)]">Use cases</h2>
+            <h2 className="text-3xl font-bold mb-2 text-[var(--color-foreground)]">Example use cases</h2>
+            <p className="mb-8 text-sm text-[var(--color-muted-foreground)]">These are product concepts, not currently available services.</p>
             <ul className="space-y-4">
               {industry.useCases?.map((useCase: string, index: number) => (
                 <li key={index} className="flex items-start gap-4">
@@ -80,7 +81,8 @@ export default async function IndustryDetailPage({ params }: Props) {
 
         <section>
           <ScrollReveal delay={0.2}>
-            <h2 className="text-3xl font-bold mb-8 text-[var(--color-foreground)]">Sample conversation</h2>
+            <h2 className="text-3xl font-bold mb-2 text-[var(--color-foreground)]">Illustrative sample conversation</h2>
+            <p className="mb-4 text-sm text-[var(--color-muted-foreground)]">Example script only; this page does not make a live call.</p>
             <div className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
               {industry.sampleTranscript?.map((msg, index) => {
                 const isAgent = msg.role === 'agent';
@@ -106,7 +108,7 @@ export default async function IndustryDetailPage({ params }: Props) {
       <section className="mt-24 px-6 text-center max-w-3xl mx-auto">
         <ScrollReveal>
           <h2 className="text-3xl font-bold mb-6 text-[var(--color-foreground)]">
-            Start calling your {industry.name.toLowerCase()} leads
+            Explore a demo for {industry.name.toLowerCase()}
           </h2>
           <Button size="lg" href="/demo">
             Book a Demo

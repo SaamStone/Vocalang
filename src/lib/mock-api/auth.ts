@@ -143,7 +143,7 @@ export const mockAuthApi = {
 
   async forgotPassword(email: string): Promise<{ success: boolean; error?: string }> {
     await sleep(MOCK_DELAY);
-    const user = mockUsers.find((u) => u.email === email);
+    void email;
     // Always return success to not leak user existence
     return { success: true };
   },

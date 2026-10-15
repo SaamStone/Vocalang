@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHmac, randomUUID } from "node:crypto";
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
@@ -73,6 +73,45 @@ async function ensureD1Table() {
     );`,
   );
   await d1Query("CREATE INDEX IF NOT EXISTS demo_requests_submitted_at ON demo_requests(submitted_at);");
+}
+
+async function ensureFounderLoginAttemptTable() {
+  await d1Query(
+    `CREATE TABLE IF NOT EXISTS founder_login_attempts (
+      email_hash TEXT PRIMARY KEY,
+      window_started INTEGER NOT NULL,
+      attempts INTEGER NOT NULL
+    );`,
+  );
+}
+
+function founderEmailHash(email: string) {
+  const secret = process.env.FOUNDER_SESSION_SECRET;
+  if (!secret || secret.length < 32) throw new Error("Founder session secret is not configured.");
+  return createHmac("sha256", secret).update(email.trim().toLowerCase()).digest("hex");
+}
+
+export async function recordFounderLoginFailure(email: string) {
+  if (!d1IsConfigured()) throw new Error("Cloudflare D1 is not configured.");
+  await ensureFounderLoginAttemptTable();
+  const now = Math.floor(Date.now() / 1000);
+  const expiredBefore = now - 15 * 60;
+  const rows = await d1Query(
+    `INSERT INTO founder_login_attempts (email_hash, window_started, attempts)
+     VALUES (?, ?, 1)
+     ON CONFLICT(email_hash) DO UPDATE SET
+       attempts = CASE WHEN window_started <= ? THEN 1 ELSE attempts + 1 END,
+       window_started = CASE WHEN window_started <= ? THEN ? ELSE window_started END
+     RETURNING attempts;`,
+    [founderEmailHash(email), String(now), String(expiredBefore), String(expiredBefore), String(now)],
+  );
+  return Number((rows[0] as { attempts?: unknown } | undefined)?.attempts ?? 1);
+}
+
+export async function clearFounderLoginFailures(email: string) {
+  if (!d1IsConfigured()) return;
+  await ensureFounderLoginAttemptTable();
+  await d1Query("DELETE FROM founder_login_attempts WHERE email_hash = ?;", [founderEmailHash(email)]);
 }
 
 export async function listDemoRequests(): Promise<StoredDemoRequest[]> {

@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { Check } from 'lucide-react';
 import { pricingPlans } from '@/lib/mock-data';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
 import { PricingPlans } from '@/components/shared/PricingPlans';
@@ -7,7 +6,7 @@ import { t } from '@/lib/i18n';
 
 export const metadata: Metadata = {
   title: 'Pricing',
-  description: 'Simple, transparent pricing for AI voice calling campaigns.',
+  description: 'Indicative pricing for the Vocalang product preview. Request a confirmed quote.',
 };
 
 export default function PricingPage() {
@@ -26,25 +25,10 @@ export default function PricingPage() {
 
           <PricingPlans plans={pricingPlans} />
 
-          {/* All plans include */}
           <ScrollReveal>
             <div className="bg-[rgb(var(--color-muted))] rounded-[var(--radius-2xl)] p-8 md:p-12 border border-[rgb(var(--color-border))] text-left">
-              <h3 className="text-2xl font-bold text-[rgb(var(--color-foreground))] mb-8 text-center">All plans include</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  'GST-compliant invoices',
-                  'Secure data encryption at rest and in transit',
-                  '24/7 monitoring and high availability',
-                  'Access to standard voice models',
-                  'Campaign analytics dashboard',
-                  'Email support',
-                ].map((feature, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3">
-                    <Check className="w-5 h-5 text-[rgb(var(--color-primary))] flex-shrink-0" />
-                    <span className="text-sm text-[rgb(var(--color-muted-foreground))]">{feature}</span>
-                  </div>
-                ))}
-              </div>
+              <h3 className="text-2xl font-bold text-[rgb(var(--color-foreground))] mb-4 text-center">Pricing is shared during a demo</h3>
+              <p className="mx-auto max-w-2xl text-center leading-7 text-[rgb(var(--color-muted-foreground))]">The rates shown are indicative per-minute references. Contact our team to confirm the final quote, telephony charges, taxes, and availability before purchasing. Self-service calling and payments are not enabled yet.</p>
             </div>
           </ScrollReveal>
         </div>

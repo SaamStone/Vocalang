@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { t } from '@/lib/i18n';
 
 const legalLinks = [
   { href: '/legal/terms', label: 'Terms & Conditions' },

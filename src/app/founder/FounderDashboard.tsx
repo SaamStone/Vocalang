@@ -1,6 +1,7 @@
 import type { StoredDemoRequest } from "@/lib/demo-request-store";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { CalendarDays, Database, Inbox } from "lucide-react";
 import { FOUNDER_SESSION_COOKIE } from "@/lib/founder-auth";
 import { RequestsTable } from "./RequestsTable";
@@ -30,10 +31,10 @@ export function FounderDashboard({ requests, storageError }: { requests: StoredD
   return (
     <div className="min-h-screen bg-[#f6f5f2] text-[#292724] dark:bg-[#171615] dark:text-[#f2f0ec]">
       <aside className="fixed inset-y-0 left-0 hidden w-[248px] flex-col border-r border-[#e7e4de] bg-[#fbfaf8] px-5 py-6 dark:border-[#34322f] dark:bg-[#1e1d1b] lg:flex">
-        <a href="/" className="flex items-center gap-3 px-2" aria-label="Vocalang home">
+        <Link href="/" className="flex items-center gap-3 px-2" aria-label="Vocalang home">
           <span className="grid size-9 place-items-center rounded-xl bg-[#2c2925] text-sm font-bold text-white dark:bg-[#e9e3da] dark:text-[#26231f]">V</span>
           <span className="text-lg font-semibold tracking-tight">Vocalang</span>
-        </a>
+        </Link>
         <div className="mt-11 px-3 text-[10px] font-semibold uppercase tracking-[.18em] text-[#8a857d]">Workspace</div>
         <nav className="mt-3" aria-label="Founder dashboard">
           <a href="/founder" aria-current="page" className="flex items-center gap-3 rounded-xl bg-[#eeeae3] px-3 py-3 text-sm font-semibold text-[#342f29] dark:bg-[#35312c] dark:text-[#f4eee6]">

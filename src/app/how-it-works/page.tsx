@@ -1,48 +1,45 @@
 import { Metadata } from 'next';
 import { Upload, Phone, BarChart3, ArrowRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { t } from '@/lib/i18n';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
 import { Button } from '@/components/shared/Button';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'How It Works | Vocalang',
-  description: 'Learn how Vocalang automates your voice calling campaigns in three simple steps.',
+  description: 'Learn how to request a Vocalang product demonstration.',
 };
 
 const steps = [
   {
     icon: Upload,
-    title: 'Upload your list',
-    description: 'Start by uploading your leads or contacts in CSV format. Our system automatically validates and deduplicates your list.',
+    title: 'Tell us about your workflow',
+    description: 'Use the demo request form to share your organization and what you would like to explore.',
     features: [
-      'Automatic phone number validation',
-      'Duplicate removal',
-      'Custom field mapping',
-      'Secure data handling',
+      'Name and contact details',
+      'Organization information',
+      'Preferred language',
+      'Expected monthly call volume',
     ],
   },
   {
     icon: Phone,
-    title: 'AI makes the calls',
-    description: 'Our natural-sounding AI agents engage with your leads in their preferred language, following your custom script.',
+    title: 'Our team reviews it',
+    description: 'We will review your request and contact you to arrange a product demonstration.',
     features: [
-      'Multi-language support (10+ Indian languages)',
-      'Natural conversational AI',
-      'Smart outcome tagging',
-      'Intelligent retry logic',
+      'We learn about your use case',
+      'We discuss language needs',
+      'We answer questions about the prototype',
+      'We confirm current availability',
     ],
   },
   {
     icon: BarChart3,
-    title: 'See your results',
-    description: 'Monitor your campaigns in real-time. Review transcripts, listen to recordings, and analyze campaign performance.',
+    title: 'Discuss next steps',
+    description: 'Review fit, indicative pricing, and what would be required before using a future calling service.',
     features: [
-      'Real-time dashboard',
-      'Call transcripts & recordings',
-      'Actionable analytics',
-      'Easy data export',
+      'Indicative per-minute rates',
+      'Current product limitations',
+      'Potential integration needs',
+      'No payment or commitment',
     ],
   },
 ];
@@ -57,7 +54,7 @@ export default function HowItWorksPage() {
               How Vocalang works
             </h1>
             <p className="text-lg md:text-xl text-[var(--color-muted-foreground)]">
-              Launch your AI voice campaigns in minutes. It&apos;s as simple as uploading a list and letting our AI do the rest.
+              Request a demonstration and discuss your business workflow with our team.
             </p>
           </div>
         </ScrollReveal>
@@ -109,10 +106,10 @@ export default function HowItWorksPage() {
       <section className="py-24 px-6 text-center max-w-4xl mx-auto w-full">
         <ScrollReveal>
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[var(--color-foreground)]">
-            Ready to try it?
+            Want to learn more?
           </h2>
           <p className="text-lg text-[var(--color-muted-foreground)] mb-10 max-w-2xl mx-auto">
-            Experience the power of AI voice calling for your business. Start automating your campaigns today.
+            Contact our team to discuss what is available and what is still being built.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" href="/demo">

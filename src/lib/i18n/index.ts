@@ -13,43 +13,43 @@ const en = {
   "nav.industries": "Industries",
   "nav.howItWorks": "How it works",
   "nav.pricing": "Pricing",
-  "nav.demo": "Try free demo",
+  "nav.demo": "Book a demo",
   "nav.login": "Log in",
   "nav.signup": "Sign up",
   "nav.getStarted": "Get started",
 
   // --- Hero ---
-  "hero.title": "AI Voice Agents That Call For You",
+  "hero.title": "Multilingual AI voice tools for business",
   "hero.subtitle":
-    "Upload your contacts, let intelligent voice agents handle the calls, and get structured results — in Telugu, Hindi, or English.",
-  "hero.cta.demo": "Try a free demo call",
-  "hero.cta.signup": "Sign up free",
+    "Explore how multilingual AI calling could support your team. Request a demo to discuss your workflow.",
+  "hero.cta.demo": "Book a demo",
+  "hero.cta.signup": "Contact us",
 
   // --- Demo ---
-  "demo.title": "See the full calling workflow",
-  "demo.subtitle": "Choose an industry and explore the journey from first outreach to a clear next step.",
+  "demo.title": "Explore a sample conversation",
+  "demo.subtitle": "This illustrative preview is not a live call. Request a demo to discuss current product availability.",
   "demo.playing": "Playing...",
   "demo.paused": "Paused",
   "demo.play": "Play demo",
   "demo.pause": "Pause",
 
   // --- How it Works ---
-  "how.title": "How it works",
-  "how.subtitle": "Three simple steps to automated calling",
-  "how.step1.title": "Upload your list",
+  "how.title": "How to request a demo",
+  "how.subtitle": "Share your needs, meet our team, and review possible next steps.",
+  "how.step1.title": "Tell us about your workflow",
   "how.step1.description":
-    "Upload an Excel, CSV, or PDF file with your contacts. We clean, deduplicate, and validate every number.",
-  "how.step2.title": "AI makes the calls",
+    "Use the form to share your organization and what you would like to explore.",
+  "how.step2.title": "Our team reviews it",
   "how.step2.description":
-    "Our voice agent calls each person, follows your script, handles objections, and tags outcomes — in their language.",
-  "how.step3.title": "See your results",
+    "We will contact you to arrange a product demonstration.",
+  "how.step3.title": "Discuss next steps",
   "how.step3.description":
-    "Get detailed results with outcome tags, full transcripts, recordings, and exportable reports.",
+    "Review indicative pricing, current availability, and your integration needs.",
 
   // --- Industries ---
   "industries.title": "Built for your industry",
   "industries.subtitle":
-    "Pre-configured voice agents trained for your specific use cases",
+    "Product concepts for common business workflows",
 
   // --- Features ---
   "features.title": "Everything you need",
@@ -76,17 +76,17 @@ const en = {
   // --- Trust ---
   "trust.title": "Trust & Security",
   "trust.subtitle":
-    "Your data is protected by enterprise-grade security practices.",
-  "trust.encryption": "End-to-end encryption for all data at rest and in transit",
-  "trust.isolation": "Complete data isolation between accounts",
-  "trust.compliance": "Designed for Indian regulatory compliance (TRAI, DPDP Act)",
-  "trust.recordings": "Secure recordings with expiring access links",
-  "trust.deletion": "Full data deletion on request",
-  "trust.auditing": "Comprehensive audit logging",
+    "See how the current website prototype handles demo and contact requests.",
+  "trust.encryption": "Demo and contact requests are stored in Cloudflare D1",
+  "trust.isolation": "Founder sign-in protects the submissions dashboard",
+  "trust.compliance": "Calling and contact uploads are not enabled",
+  "trust.recordings": "The website does not store call recordings",
+  "trust.deletion": "Deletion requests are handled manually",
+  "trust.auditing": "Product capabilities are still in development",
 
   // --- Pricing ---
   "pricing.title": "Simple, transparent pricing",
-  "pricing.subtitle": "Choose a voice tier and pay its listed rate per minute.",
+  "pricing.subtitle": "Review indicative voice tiers and request a confirmed quote.",
   "pricing.placeholder": "Pricing is subject to confirmation.",
   "pricing.perMinute": "per minute",
   "pricing.cta": "Get started",
@@ -99,10 +99,10 @@ const en = {
   "faq.subtitle": "Everything you need to know about Vocalang",
 
   // --- CTA Banner ---
-  "cta.title": "Ready to automate your calls?",
+  "cta.title": "Want to explore Vocalang?",
   "cta.subtitle":
-    "Join businesses that are saving hours every day with AI voice agents.",
-  "cta.button": "Sign up free",
+    "Contact our team to discuss your workflow and the current prototype.",
+  "cta.button": "Contact us",
 
   // --- Footer ---
   "footer.product": "Product",
@@ -113,7 +113,7 @@ const en = {
 
   // --- Contact ---
   "contact.title": "Get in touch",
-  "contact.subtitle": "We'd love to hear from you. Send us a message and we'll respond promptly.",
+  "contact.subtitle": "Send us a message and our team will get back to you.",
   "contact.name": "Full name",
   "contact.email": "Email address",
   "contact.phone": "Phone number",

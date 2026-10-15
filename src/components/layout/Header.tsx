@@ -109,7 +109,7 @@ export function Header() {
                 className="block w-full text-center px-4 py-3 text-base font-semibold text-white bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary-hover))] rounded-[var(--radius-lg)] transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
-                Try free demo
+                Book a demo
               </Link>
             </div>
           </div>

@@ -10,7 +10,7 @@ import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { Button } from "@/components/shared/Button";
 import { WorkflowShowcase } from "@/components/home/WorkflowShowcase";
 import { DayToDayShowcase } from "@/components/home/DayToDayShowcase";
-import { SarvamLanguageCoverage } from "@/components/home/SarvamLanguageCoverage";
+import { LanguageCoverage } from "@/components/home/LanguageCoverage";
 import { IndustryShowcase } from "@/components/home/IndustryShowcase";
 import { PricingPlans } from "@/components/shared/PricingPlans";
 import { FAQAccordion } from "@/app/faq/FAQAccordion";
@@ -19,16 +19,16 @@ import { t } from "@/lib/i18n";
 import { faqItems, pricingPlans } from "@/lib/mock-data";
 
 const trustPoints = [
-  "Private-by-default file and recording access",
-  "Account-level data separation built into the platform plan",
-  "Clear AI and recording disclosures in call flows",
-  "Calling windows and do-not-call checks in the workflow",
+  "Demo and contact requests are stored in Cloudflare D1",
+  "Founder sign-in protects the submissions dashboard",
+  "Contact-list uploads are not enabled yet",
+  "Voice calling is still in development",
 ];
 
 const steps = [
-  { icon: Upload, number: "01", title: "Bring your contact list", body: "Upload a spreadsheet and review cleaned, validated contacts before a campaign begins." },
-  { icon: Mic2, number: "02", title: "Set up your agent", body: "Choose an industry, language, and voice. Add the questions your agent should ask and the business details it should use for your requirements." },
-  { icon: BarChart3, number: "03", title: "Follow every outcome", body: "Track campaign progress and review call outcomes, transcripts, and exports in one place." },
+  { icon: Upload, number: "01", title: "Tell us about your workflow", body: "Share your business details and the type of conversations you want to support." },
+  { icon: Mic2, number: "02", title: "Meet with our team", body: "We will review your request and arrange a product demonstration around your needs." },
+  { icon: BarChart3, number: "03", title: "Review the next steps", body: "Discuss language needs, pricing, and product availability before deciding whether to proceed." },
 ];
 
 function SectionIntro({ eyebrow, title, body }: { eyebrow: string; title: string; body: string }) {
@@ -40,7 +40,6 @@ function SectionIntro({ eyebrow, title, body }: { eyebrow: string; title: string
     </div>
   );
 }
-
 export default function HomePage() {
   return (
     <>
@@ -54,11 +53,11 @@ export default function HomePage() {
               {t("hero.title")}
             </h1>
             <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-[rgb(var(--color-muted-foreground))] sm:text-xl">
-              Upload a contact list. Let a multilingual voice agent handle the first conversation. See what happened, clearly.
+              Explore how multilingual AI calling could support your team. Request a demo to discuss your workflow.
             </p>
             <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
               <Button href="/demo" size="lg">
-                Try a free demo call <ArrowRight className="ml-2 h-4 w-4" />
+                Book a demo <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
               <Button href="/contact" variant="outline" size="lg">Contact us</Button>
             </div>
@@ -122,10 +121,10 @@ export default function HomePage() {
           <SectionIntro
             eyebrow="Made for India's many voices"
             title="Language support, shown clearly"
-            body="See the languages listed for Sarvam voice agents and speech recognition. The two capabilities cover different sets."
+            body="Explore the languages available in the current Vocalang demo."
           />
           <ScrollReveal>
-            <SarvamLanguageCoverage />
+            <LanguageCoverage />
           </ScrollReveal>
         </div>
       </section>
@@ -165,7 +164,7 @@ export default function HomePage() {
           <h2 className="text-4xl leading-tight text-white sm:text-5xl">See what a voice agent can do for your team</h2>
           <p className="mx-auto mt-4 max-w-xl leading-7 text-white/70">Try a sample call, then explore how Vocalang can fit your workflow.</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Button href="/demo" className="bg-white text-slate-900 hover:bg-white/90">Try the demo <ArrowRight className="ml-2 h-4 w-4" /></Button>
+            <Button href="/demo" className="bg-white text-slate-900 hover:bg-white/90">Book a demo <ArrowRight className="ml-2 h-4 w-4" /></Button>
             <Button href="/contact" variant="outline" className="border-white/30 text-white hover:bg-white/10">Contact us</Button>
           </div>
         </div>

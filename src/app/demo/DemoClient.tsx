@@ -99,7 +99,7 @@ export function DemoClient() {
             <button type="submit" disabled={submitting} className="w-full rounded-full bg-[rgb(var(--color-primary))] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[rgb(var(--color-primary-hover))] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-ring))] disabled:cursor-wait disabled:opacity-60">
               {submitting ? 'Sending…' : 'Send demo request'}
             </button>
-            <p className="mt-3 text-center text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Your details will be saved so our team can respond to your request.</p>
+            <p className="mt-3 text-center text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Your details will be saved so our team can respond. See our <a className="underline underline-offset-2" href="/legal/privacy">Privacy Policy</a>.</p>
           </div>
         </form>
       </section>

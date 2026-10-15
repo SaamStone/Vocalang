@@ -90,7 +90,6 @@
   --z-modal: 200;
   --z-toast: 300;
 }
-
 /* --- Dark Mode Tokens --- */
 .dark {
   --color-primary: 153 61 35;         /* warm terracotta for dark surfaces */
@@ -211,7 +210,7 @@ body {
   }
 }
 
-/* Sarvam-inspired visual language: warm canvas, editorial headings, quiet surfaces. */
+/* Warm editorial visual language: warm canvas, editorial headings, quiet surfaces. */
 h1, h2 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.035em; }
 .marketing-hero {
   background: radial-gradient(ellipse 75% 58% at 50% 0%, rgba(255, 166, 104, .86) 0%, rgba(231, 207, 229, .72) 43%, rgba(250, 249, 247, 0) 100%);

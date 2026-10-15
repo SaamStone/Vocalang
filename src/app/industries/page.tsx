@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { Building2, GraduationCap, Plane, Users, ArrowRight, type LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { siteConfig } from '@/lib/config/site';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
 import Link from 'next/link';

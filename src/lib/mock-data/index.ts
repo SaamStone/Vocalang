@@ -16,42 +16,42 @@ export const pricingPlans: readonly PricingPlan[] = [
   {
     id: "value",
     name: "Value",
-    description: "Budget-friendly. Mostly used for bulk calling campaigns.",
+    description: "Indicative tier for organizations planning larger call volumes.",
     perMinuteRate: 3.5,
     features: [
       "Speaks multiple Indian languages",
       "Clear, cost-effective AI voice",
       "Quick responses during calls",
-      "Designed for large calling campaigns",
+      "Designed for larger calling workflows",
     ],
-    cta: "Start Calling",
+    cta: "Contact us",
   },
   {
     id: "standard",
     name: "Standard",
-    description: "The All-Rounder. High realism for everyday customer interactions and support.",
+    description: "An indicative tier for everyday customer conversations.",
     perMinuteRate: 5,
     features: [
       "Speaks multiple Indian languages",
       "Natural-sounding AI voice",
       "Quick responses during calls",
-      "Well suited to everyday customer calls",
+      "Designed for everyday customer workflows",
     ],
     popular: true,
-    cta: "Start Calling",
+    cta: "Contact us",
   },
   {
     id: "premium",
     name: "Premium",
-    description: "Curated native speakers. The most real-like voices from our exclusive library.",
+    description: "For teams looking for a more natural-sounding voice experience.",
     perMinuteRate: 7,
     features: [
       "Speaks multiple Indian languages",
-      "Curated, natural-sounding voices",
-      "Very quick responses during calls",
+      "Natural-sounding voice options",
+      "Responsive conversations",
       "Custom integrations available",
     ],
-    cta: "Start Calling",
+    cta: "Contact us",
   },
 
 ] as const;
@@ -60,62 +60,62 @@ export const faqItems: readonly { question: string; answer: string }[] = [
   {
     question: "What is Vocalang?",
     answer:
-      "Vocalang is an AI-powered voice calling platform. You upload a list of contacts, and our AI agent calls each person, following your script and reporting structured results — interested, not interested, callback requested, and more.",
+      "Vocalang is developing multilingual AI voice tools for businesses in India. The current website lets you request a product demo; calling campaigns are not available for self-service yet.",
   },
   {
     question: "How does the free demo work?",
     answer:
-      "After signing up and verifying your phone number, you get one free demo call. The AI agent calls YOUR number so you can experience the conversation first-hand. No contacts are called during the demo.",
+      "Send a request through the Book a demo form. Our team will review it and contact you to arrange a demonstration.",
   },
   {
     question: "Which languages are supported?",
     answer:
-      "Currently we support Telugu, Hindi, and English. More Indian languages are planned. The AI can handle conversations naturally in each language.",
+      "The current demo focus is Telugu, Hindi, and English. Availability will be confirmed when arranging a demonstration.",
   },
   {
     question: "How accurate is the AI?",
     answer:
-      "Our AI is powered by Sarvam AI, a leading Indian language AI platform. It handles natural conversations, understands accents, and correctly tags outcomes in most cases. Every call comes with a full transcript and recording for review.",
+      "The voice product is still being developed. We will share current capabilities and limitations during a demo; this website does not currently place or record calls.",
   },
   {
     question: "Can I add more contacts while a campaign is running?",
     answer:
-      "Yes! Upload additional contacts at any time during a running campaign. They're deduplicated against already-called numbers and added to the queue seamlessly.",
+      "Contact us to discuss your intended workflow. Contact uploads and calling campaigns are not available on this website yet.",
   },
   {
     question: "What file formats can I upload?",
     answer:
-      "We accept Excel (.xlsx, .xls), CSV, and PDF files. Our system validates phone numbers, removes duplicates, and flags any issues before calling begins.",
+      "The website does not currently accept contact-list uploads. Ask our team about supported formats during a demo.",
   },
   {
     question: "How is pricing calculated?",
     answer:
-      "Vocalang uses a prepaid wallet model. You top up your wallet and pay per minute of calling. Each plan includes a set number of minutes, with additional minutes at a per-minute rate. You can top up at any time.",
+      "The pricing page shows indicative per-minute rates. Contact us for a quote and confirmation of any telephony or tax charges before purchasing. Self-service payments are not enabled.",
   },
   {
     question: "What happens if my wallet runs out during a campaign?",
     answer:
-      "The campaign pauses automatically. You'll receive an alert, and once you top up, calling resumes from where it left off — no calls are lost.",
+      "Wallets and calling campaigns are not enabled on the public website. Our team can discuss planned billing and campaign controls during a demo.",
   },
   {
     question: "Is my data secure?",
     answer:
-      "Yes. All data is encrypted at rest and in transit. Each account's data is completely isolated. Recordings use expiring signed URLs. We follow Indian data protection guidelines and are working towards full DPDP Act compliance.",
+      "The website stores demo and contact form submissions in Cloudflare D1 and restricts the founder dashboard to a founder sign-in. Call recordings and customer workspaces are not available in the current prototype. See the Privacy Policy for details.",
   },
   {
     question: "Does the AI disclose it's not human?",
     answer:
-      "Yes. At the start of every call, the AI identifies itself as an AI assistant and informs the person that the call may be recorded. This is both a legal requirement and our commitment to transparency.",
+      "No calls are placed by the current website. Disclosure and consent workflows will be described before any calling service is made available.",
   },
   {
     question: "Can I use my own phone number?",
     answer:
-      "Yes, you can verify and use your own number. Alternatively, you can rent a number from Vocalang. Options depend on your plan.",
+      "Phone-number options are not available yet. Contact us to discuss the product roadmap.",
   },
   {
     question: "What are calling windows?",
     answer:
-      "Calling windows define the hours during which calls are placed (default: 9 AM to 8 PM IST). You can customise these per campaign to respect your contacts' preferences and regulatory requirements.",
+      "Calling-window controls are not available on the public website yet. Any calling workflow will need to be configured before launch.",
   },
 ] as const;
 

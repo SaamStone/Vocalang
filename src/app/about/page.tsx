@@ -1,9 +1,7 @@
 import { Metadata } from 'next';
 import { Lightbulb, Shield, Heart, Globe2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { ScrollReveal } from '@/components/shared/ScrollReveal';
 import { Button } from '@/components/shared/Button';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About Us | Vocalang',
@@ -19,7 +17,7 @@ const values = [
   {
     icon: Shield,
     title: 'Security',
-    description: 'Your data is sacred. We employ enterprise-grade security measures to protect every call and contact.'
+    description: 'We explain how website form submissions are handled and limit access to the founder dashboard.'
   },
   {
     icon: Heart,
@@ -29,7 +27,7 @@ const values = [
   {
     icon: Globe2,
     title: 'Accessibility',
-    description: 'Making enterprise-grade tools available to businesses of all sizes across India.'
+    description: 'Building tools for businesses across India.'
   }
 ];
 
@@ -77,14 +75,14 @@ export default function AboutPage() {
             <div>
               <h2 className="text-3xl font-bold mb-6 text-[var(--color-foreground)]">Our approach</h2>
               <p className="text-lg text-[var(--color-muted-foreground)] leading-relaxed">
-                Vocalang is proudly built on Sarvam AI to provide unparalleled support for Indian languages. We combine cutting-edge language models with robust telephony infrastructure to deliver a seamless calling experience. Our platform is designed from the ground up to understand the nuances, dialects, and contexts unique to the Indian market.
+                Vocalang is developing multilingual voice tools for businesses in India. The public website currently lets businesses request a product demo; calling workflows are not yet available for self-service.
               </p>
             </div>
             
             <div>
               <h2 className="text-3xl font-bold mb-6 text-[var(--color-foreground)]">Our team</h2>
               <p className="text-lg text-[var(--color-muted-foreground)] leading-relaxed">
-                Our team of engineers and designers is based in Hyderabad, building the future of business communication. We are passionate about democratizing access to AI and helping businesses scale their operations efficiently.
+                Vocalang is based in Hyderabad, Telangana. We are building the product with a focus on clear, useful conversations in Indian languages.
               </p>
             </div>
           </div>

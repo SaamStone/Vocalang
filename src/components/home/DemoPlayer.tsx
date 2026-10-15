@@ -67,7 +67,7 @@ export function DemoPlayer() {
     <div className="mx-auto max-w-6xl">
       <section className="overflow-hidden rounded-[2rem] border border-violet-200/70 bg-[rgb(var(--color-card))] p-2 shadow-[0_28px_90px_-38px_rgba(55,42,32,0.32)] ring-4 ring-violet-200/35 dark:border-violet-400/15 dark:ring-violet-950/50">
         <div className="flex flex-col gap-3 p-2 sm:p-3">
-        <p className="px-1 text-[10px] font-semibold uppercase tracking-[.17em] text-[rgb(var(--color-muted-foreground))] sm:text-xs">Choose a sample scenario</p>
+        <p className="px-1 text-[10px] font-semibold uppercase tracking-[.17em] text-[rgb(var(--color-muted-foreground))] sm:text-xs">Sample conversation · Not a live call</p>
         <div className="grid grid-cols-2 gap-1 rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-muted))] p-1 sm:grid-cols-4" role="group" aria-label="Choose a sample industry">
           {siteConfig.industries.map((item, index) => (
             <button
