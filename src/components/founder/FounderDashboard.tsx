@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import FeaturesDetail from "@/components/ui/features-detail";
 import {
   Activity, ArrowDownRight, ArrowUpRight, Bell, Check, CheckCircle2,
   ChevronDown, CircleHelp, Clock3, CreditCard, Database, FileText, Filter,
@@ -88,7 +87,6 @@ export default function FounderDashboard() {
       <main className="flex-1 overflow-y-auto"><div className="mx-auto max-w-[1440px] px-4 py-6 sm:px-7 sm:py-8">
         {section === "Overview" && <>
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-medium uppercase tracking-[.16em] text-indigo-600">Tuesday, October 6, 2026</p><h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:text-[28px]">Good morning, Maya <span aria-hidden="true">✦</span></h1><p className="mt-1.5 text-sm text-slate-500">Here’s what’s happening across your platform today.</p></div><button onClick={() => notify("Report export will be connected with the backend")} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50"><FileText size={15}/> Export report</button></div>
-          <FeaturesDetail onNavigate={setSection} />
           <div className="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">{[
             { label: "Lifetime calls", value: "184,260", delta: "+12.8%", icon: PhoneCall, color: "indigo" },
             { label: "Calls today", value: "8,420", delta: "+8.2%", icon: Activity, color: "emerald" },
