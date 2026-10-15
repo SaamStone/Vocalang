@@ -118,8 +118,8 @@ export default function HowItWorksPage() {
             <Button size="lg" href="/demo">
               Request Demo <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-            <Button size="lg" variant="outline" href="/register">
-              Sign Up Free
+            <Button size="lg" variant="outline" href="/contact">
+              Contact us
             </Button>
           </div>
         </ScrollReveal>

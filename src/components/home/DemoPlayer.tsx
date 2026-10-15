@@ -2,22 +2,15 @@
 
 import { useEffect, useState } from "react";
 import {
-  AudioWaveform,
   AudioLines,
-  Captions,
   Check,
-  ChevronRight,
-  CircleHelp,
   Headphones,
   Mic2,
   Pause,
   Play,
-  Radio,
   RotateCcw,
-  ShieldCheck,
   UserRound,
   Volume2,
-  X,
 } from "lucide-react";
 import { siteConfig } from "@/lib/config/site";
 import { cn } from "@/lib/utils";
@@ -35,7 +28,6 @@ export function DemoPlayer() {
   const [activeTab, setActiveTab] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [isLivePanelOpen, setIsLivePanelOpen] = useState(false);
 
   const industry = siteConfig.industries[activeTab] ?? siteConfig.industries[0]!;
 
@@ -218,52 +210,6 @@ export function DemoPlayer() {
       </div>
       </section>
 
-      <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-5 py-4 sm:flex-row">
-        <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[rgb(var(--color-accent-soft))] text-[rgb(var(--color-accent))]"><Radio className="h-5 w-5" aria-hidden="true" /></span>
-          <div>
-            <p className="text-sm font-semibold text-[rgb(var(--color-foreground))]">Want to speak with the agent?</p>
-            <p className="mt-0.5 text-xs text-[rgb(var(--color-muted-foreground))]">Open the live demo and follow the conversation transcript.</p>
-          </div>
-        </div>
-        <button type="button" onClick={() => setIsLivePanelOpen(true)} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[rgb(var(--color-primary))] px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-ring))] sm:w-auto">
-          Try live demo <ChevronRight className="h-4 w-4" aria-hidden="true" />
-        </button>
-      </div>
-
-      {isLivePanelOpen && (
-        <div className="fixed inset-0 z-[var(--z-modal)] flex justify-end bg-black/40 backdrop-blur-[2px]" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsLivePanelOpen(false); }}>
-          <aside className="flex h-full w-full max-w-xl flex-col border-l border-[rgb(var(--color-border))] bg-[rgb(var(--color-background))] shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="live-demo-title">
-            <div className="flex items-center justify-between border-b border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-5 py-4 sm:px-7">
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[rgb(var(--color-accent-soft))] text-[rgb(var(--color-accent))]"><AudioWaveform className="h-5 w-5" aria-hidden="true" /></span>
-                <div><h2 id="live-demo-title" className="font-semibold text-[rgb(var(--color-foreground))]">Talk to Vocalang</h2><p className="text-xs text-[rgb(var(--color-muted-foreground))]">Voice demo · Transcript</p></div>
-              </div>
-              <button type="button" onClick={() => setIsLivePanelOpen(false)} aria-label="Close live demo panel" className="flex h-10 w-10 items-center justify-center rounded-full text-[rgb(var(--color-muted-foreground))] hover:bg-[rgb(var(--color-muted))] hover:text-[rgb(var(--color-foreground))]"><X className="h-5 w-5" aria-hidden="true" /></button>
-            </div>
-
-            <div className="flex items-center justify-between px-5 py-4 sm:px-7">
-              <div><p className="text-sm font-semibold text-[rgb(var(--color-foreground))]">Live transcript</p><p className="mt-1 text-xs text-[rgb(var(--color-muted-foreground))]">Your words and the agent’s replies will appear here.</p></div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-3 py-1.5 text-[11px] font-medium text-[rgb(var(--color-muted-foreground))]"><span className="h-1.5 w-1.5 rounded-full bg-[rgb(var(--color-warning))]" /> Not connected</span>
-            </div>
-
-            <div className="mx-5 flex flex-1 flex-col items-center justify-center rounded-2xl border border-dashed border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-7 text-center sm:mx-7">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[rgb(var(--color-muted))] text-[rgb(var(--color-muted-foreground))]"><Captions className="h-7 w-7" aria-hidden="true" /></span>
-              <h3 className="mt-5 text-lg font-semibold text-[rgb(var(--color-foreground))]">Your conversation will show up here</h3>
-              <p className="mt-2 max-w-sm text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">Once the live voice connection is enabled, speech recognition will display your words alongside the AI agent’s responses in real time.</p>
-              <div className="mt-6 flex items-start gap-3 rounded-xl bg-[rgb(var(--color-muted))] p-4 text-left">
-                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--color-accent))]" aria-hidden="true" />
-                <p className="text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Microphone access will only be requested after you choose to start. Sarvam credentials will be kept on the server.</p>
-              </div>
-            </div>
-
-            <div className="border-t border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-5 py-5 sm:px-7">
-              <button type="button" disabled className="flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full bg-[rgb(var(--color-primary))] px-5 py-3.5 text-sm font-semibold text-white opacity-50" title="Live demo will be enabled after the Sarvam server connection is configured"><Mic2 className="h-4 w-4" aria-hidden="true" /> Live demo setup required</button>
-              <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-[rgb(var(--color-muted-foreground))]"><CircleHelp className="h-3.5 w-3.5" aria-hidden="true" /> Sarvam voice agent and secure server connection are not configured yet.</p>
-            </div>
-          </aside>
-        </div>
-      )}
     </div>
   );
 }

@@ -65,14 +65,6 @@ export function Header() {
           {/* Theme toggle */}
           <ThemeToggle />
 
-          {/* Login */}
-          <Link
-            href="/login"
-            className="px-4 py-2 text-sm font-medium text-[rgb(var(--color-muted-foreground))] hover:text-[rgb(var(--color-foreground))] transition-colors"
-          >
-            {siteConfig.nav.login.label}
-          </Link>
-
           {/* CTA */}
           <Link
             href="/demo"
@@ -112,13 +104,6 @@ export function Header() {
             ))}
 
             <div className="pt-4 space-y-3">
-              <Link
-                href="/login"
-                className="block w-full text-center px-4 py-3 text-base font-medium text-[rgb(var(--color-foreground))] border border-[rgb(var(--color-border))] rounded-[var(--radius-lg)] hover:bg-[rgb(var(--color-muted))] transition-colors"
-                onClick={() => setMobileOpen(false)}
-              >
-                Log in
-              </Link>
               <Link
                 href="/demo"
                 className="block w-full text-center px-4 py-3 text-base font-semibold text-white bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary-hover))] rounded-[var(--radius-lg)] transition-colors"

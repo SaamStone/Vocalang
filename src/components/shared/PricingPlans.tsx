@@ -73,8 +73,8 @@ export function PricingPlans({ plans }: { plans: readonly PricingPlan[] }) {
                   {plan.perMinuteRate > 0 && <p className="mt-2 text-sm font-medium text-[rgb(var(--color-accent))]">{formatINR(plan.perMinuteRate)} per minute</p>}
                 </div>
 
-                <Button href={isEnterprise ? "/contact" : "/register"} variant={isPopular ? "primary" : "outline"} className="mb-7 mt-2 w-full">
-                  {plan.cta}
+                <Button href="/contact" variant={isPopular ? "primary" : "outline"} className="mb-7 mt-2 w-full">
+                  Contact us
                 </Button>
 
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[.12em] text-[rgb(var(--color-foreground))]">Includes</p>

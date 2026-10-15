@@ -60,7 +60,7 @@ export default function HomePage() {
               <Button href="/demo" size="lg">
                 Try a free demo call <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button href="/register" variant="outline" size="lg">Create your workspace</Button>
+              <Button href="/contact" variant="outline" size="lg">Contact us</Button>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={150} className="mt-12 flex flex-wrap items-center justify-center gap-2.5">
@@ -169,7 +169,7 @@ export default function HomePage() {
           <p className="mx-auto mt-4 max-w-xl leading-7 text-white/70">Try a sample call, then explore how Vocalang can fit your workflow.</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Button href="/demo" className="bg-white text-slate-900 hover:bg-white/90">Try the demo <ArrowRight className="ml-2 h-4 w-4" /></Button>
-            <Button href="/register" variant="outline" className="border-white/30 text-white hover:bg-white/10">Create an account</Button>
+            <Button href="/contact" variant="outline" className="border-white/30 text-white hover:bg-white/10">Contact us</Button>
           </div>
         </div>
       </section>
