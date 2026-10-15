@@ -14,3 +14,13 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Project notes
 
 The current experience includes the public marketing site, demo player UI, pricing, authentication screens, and dashboard prototypes. Provider integrations and several form flows are placeholders; do not put API keys in client-side code. Configure secrets through environment variables when backend integrations are added.
+
+## Demo request storage
+
+The `/demo` and `/contact` forms submit to the server-side `/api/demo-request` route. In production, configure Cloudflare D1 before accepting submissions:
+
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_D1_DATABASE_ID`
+- `CLOUDFLARE_API_TOKEN` (server-side secret with D1 Read and D1 Write permissions)
+
+For local development, copy `.env.example` to `.env.local` and fill in these values. The D1 table is created automatically when the first form is submitted. Production submissions fail with a friendly error if D1 is not configured; they are not written to ephemeral serverless disk.

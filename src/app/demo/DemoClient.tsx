@@ -1,213 +1,112 @@
 'use client';
 
-import { useState } from 'react';
-import { Phone, Check, MessageSquare } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { siteConfig } from '@/lib/config/site';
-import { ScrollReveal } from '@/components/shared/ScrollReveal';
-import { Button } from '@/components/shared/Button';
+import { useState, type FormEvent } from 'react';
+
+const fieldClass = 'mt-1.5 w-full rounded-xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-input))] px-3.5 py-3 text-sm text-[rgb(var(--color-foreground))] outline-none transition focus-visible:border-[rgb(var(--color-ring))] focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-ring))/0.25]';
+const labelClass = 'block text-sm font-medium text-[rgb(var(--color-foreground))]';
 
 export function DemoClient() {
-  const industries = siteConfig.industries;
-  const languages = siteConfig.supportedVoiceLanguages;
-
-  const [activeIndustryIdx, setActiveIndustryIdx] = useState(0);
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [industry, setIndustry] = useState('');
   const [language, setLanguage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const activeIndustry = industries[activeIndustryIdx];
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitting(true);
+    setSubmitted(false);
+    setError('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-  };
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form).entries());
+    try {
+      const response = await fetch('/api/demo-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...values,
+          formType: 'demo',
+          language: values.language === 'Other' ? values.otherLanguage : values.language,
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Could not send your request.');
+
+      form.reset();
+      setLanguage('');
+      setSubmitted(true);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not send your request.');
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-[rgb(var(--color-background))]">
-      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[rgb(var(--color-foreground))] mb-6">
-              Try Vocalang — free
-            </h1>
-            <p className="text-xl text-[rgb(var(--color-muted-foreground))] max-w-2xl mx-auto">
-              Experience the future of voice interactions firsthand.
-            </p>
-          </ScrollReveal>
+    <main className="min-h-[calc(100vh-4.5rem)] bg-[rgb(var(--color-background))] px-4 py-12 sm:px-6 sm:py-16">
+      <section className="mx-auto max-w-2xl rounded-3xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] p-6 shadow-xl sm:p-9">
+        <p className="marketing-kicker">Vocalang demo</p>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[rgb(var(--color-foreground))] sm:text-4xl">Book a demo</h1>
+        <p className="mt-3 text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">Share your details and our team will get back to you.</p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-center">
-            <ScrollReveal className="space-y-6">
-              <h2 className="text-3xl font-bold text-[rgb(var(--color-foreground))]">How it works</h2>
-              <p className="text-lg text-[rgb(var(--color-muted-foreground))]">
-                Once the calling service is connected, the demo is intended to:
-              </p>
-              <ul className="space-y-4 mt-6">
-                {[
-                  'Place a demo call to the number you provide',
-                  'Let you try the voice agent before setting up a campaign',
-                  'Show how a conversation works in the selected language',
-                ].map((step, i) => (
-                  <li key={i} className="flex items-center text-[rgb(var(--color-muted-foreground))]">
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[rgb(var(--color-success-light))] flex items-center justify-center mr-4">
-                      <Check className="w-3.5 h-3.5 text-[rgb(var(--color-success))]" />
-                    </div>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ul>
-            </ScrollReveal>
-
-            <ScrollReveal delay={200}>
-              <div className="bg-[rgb(var(--color-card))] border border-[rgb(var(--color-border))] p-8 rounded-[var(--radius-2xl)] shadow-[var(--shadow-lg)]">
-                <h3 className="text-2xl font-bold text-[rgb(var(--color-foreground))] mb-6">Enter your details</h3>
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label htmlFor="demo-phone" className="block text-sm font-medium text-[rgb(var(--color-foreground))] mb-2">
-                      Phone Number
-                    </label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[rgb(var(--color-muted-foreground))]" />
-                      <input
-                        id="demo-phone"
-                        type="tel"
-                        required
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="+91 98765 43210"
-                        className="w-full pl-10 pr-4 py-3 bg-[rgb(var(--color-input))] border border-[rgb(var(--color-border))] rounded-[var(--radius-lg)] text-[rgb(var(--color-foreground))] focus:ring-2 focus:ring-[rgb(var(--color-ring))] focus:outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="demo-industry" className="block text-sm font-medium text-[rgb(var(--color-foreground))] mb-2">
-                      Industry
-                    </label>
-                    <select
-                      id="demo-industry"
-                      required
-                      value={industry}
-                      onChange={(e) => setIndustry(e.target.value)}
-                      className="w-full px-4 py-3 bg-[rgb(var(--color-input))] border border-[rgb(var(--color-border))] rounded-[var(--radius-lg)] text-[rgb(var(--color-foreground))] focus:ring-2 focus:ring-[rgb(var(--color-ring))] focus:outline-none appearance-none"
-                    >
-                      <option value="" disabled>Select your industry</option>
-                      {industries.map((ind) => (
-                        <option key={ind.slug} value={ind.slug}>{ind.name}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="demo-language" className="block text-sm font-medium text-[rgb(var(--color-foreground))] mb-2">
-                      Language
-                    </label>
-                    <select
-                      id="demo-language"
-                      required
-                      value={language}
-                      onChange={(e) => setLanguage(e.target.value)}
-                      className="w-full px-4 py-3 bg-[rgb(var(--color-input))] border border-[rgb(var(--color-border))] rounded-[var(--radius-lg)] text-[rgb(var(--color-foreground))] focus:ring-2 focus:ring-[rgb(var(--color-ring))] focus:outline-none appearance-none"
-                    >
-                      <option value="" disabled>Select AI voice language</option>
-                      {languages.map((lang) => (
-                        <option key={lang} value={lang}>{lang}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <Button type="submit" className="w-full py-4 text-lg mt-4">
-                    {submitted ? 'Request previewed' : 'Preview demo request'}
-                  </Button>
-                  <p className="text-center text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Preview only: no call is placed and no request is sent while calling APIs are disconnected.</p>
-                </form>
-              </div>
-            </ScrollReveal>
+        <form onSubmit={handleSubmit} className="mt-7 grid gap-5 sm:grid-cols-2">
+          <div className="hidden" aria-hidden="true">
+            <label htmlFor="demo-website-honeypot">Website</label>
+            <input id="demo-website-honeypot" name="website" tabIndex={-1} autoComplete="off" />
           </div>
-
-          {/* What to expect */}
-          <ScrollReveal className="mb-24">
-            <h2 className="text-3xl font-bold text-[rgb(var(--color-foreground))] text-center mb-16">What to expect</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { title: '1. Phone rings', desc: 'You will receive a call from our secure demo number.', icon: Phone },
-                { title: '2. AI introduces itself', desc: 'The voice agent greets you and sets the context for the conversation.', icon: MessageSquare },
-                { title: '3. Have a conversation', desc: 'Ask questions, interrupt, or test its knowledge naturally.', icon: Check },
-              ].map((step, i) => {
-                const Icon = step.icon;
-                return (
-                  <div key={i} className="text-center relative">
-                    <div className="w-16 h-16 mx-auto bg-[rgb(var(--color-primary-light))] rounded-[var(--radius-xl)] flex items-center justify-center mb-6">
-                      <Icon className="w-8 h-8 text-[rgb(var(--color-primary))]" />
-                    </div>
-                    <h3 className="text-xl font-bold text-[rgb(var(--color-foreground))] mb-3">{step.title}</h3>
-                    <p className="text-[rgb(var(--color-muted-foreground))]">{step.desc}</p>
-                    {i < 2 && <div className="hidden md:block absolute top-8 right-0 translate-x-1/2 w-1/2 h-0.5 bg-[rgb(var(--color-border))] -z-10" />}
-                  </div>
-                );
-              })}
-            </div>
-          </ScrollReveal>
-
-          {/* Sample transcript by industry */}
-          <ScrollReveal>
-            <div className="bg-[rgb(var(--color-card))] border border-[rgb(var(--color-border))] rounded-[var(--radius-2xl)] p-8 max-w-4xl mx-auto mb-16">
-              <h2 className="text-2xl font-bold text-[rgb(var(--color-foreground))] mb-8 text-center">Sample Transcript</h2>
-
-              <div className="flex overflow-x-auto gap-2 mb-8 pb-2 border-b border-[rgb(var(--color-border))]">
-                {industries.map((ind, i) => (
-                  <button
-                    key={ind.slug}
-                    onClick={() => setActiveIndustryIdx(i)}
-                    className={cn(
-                      "whitespace-nowrap px-4 py-2 font-medium transition-colors border-b-2 text-sm",
-                      i === activeIndustryIdx
-                        ? "text-[rgb(var(--color-primary))] border-[rgb(var(--color-primary))]"
-                        : "text-[rgb(var(--color-muted-foreground))] border-transparent hover:text-[rgb(var(--color-foreground))]"
-                    )}
-                  >
-                    {ind.name}
-                  </button>
-                ))}
-              </div>
-
-              <div className="space-y-4">
-                {activeIndustry?.sampleTranscript.map((msg, i) => (
-                  <div
-                    key={i}
-                    className={cn(
-                      "flex",
-                      msg.role === 'customer' ? "justify-end" : "justify-start"
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        "max-w-[80%] px-5 py-3 text-sm leading-relaxed",
-                        msg.role === 'customer'
-                          ? "bg-[rgb(var(--color-primary))] text-white rounded-2xl rounded-br-md"
-                          : "bg-[rgb(var(--color-muted))] text-[rgb(var(--color-foreground))] rounded-2xl rounded-bl-md"
-                      )}
-                    >
-                      <span className="block text-[10px] font-semibold uppercase mb-1 opacity-70">
-                        {msg.role === 'agent' ? '🤖 AI Agent' : '👤 Customer'}
-                      </span>
-                      {msg.text}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-center">
-              <Button href="/register" size="lg">
-                Ready for the full experience? Sign up →
-              </Button>
-            </div>
-          </ScrollReveal>
-        </div>
+          <label className={labelClass} htmlFor="demo-name">Name *
+            <input className={fieldClass} id="demo-name" name="name" autoComplete="name" required placeholder="Your name" />
+          </label>
+          <label className={labelClass} htmlFor="demo-phone">Number *
+            <input className={fieldClass} id="demo-phone" name="phone" type="tel" autoComplete="tel" required placeholder="+91 98765 43210" />
+          </label>
+          <label className={labelClass} htmlFor="demo-email">Email *
+            <input className={fieldClass} id="demo-email" name="email" type="email" autoComplete="email" required placeholder="you@example.com" />
+          </label>
+          <label className={labelClass} htmlFor="demo-organization">Organization *
+            <input className={fieldClass} id="demo-organization" name="organization" autoComplete="organization" required placeholder="Organization name" />
+          </label>
+          <label className={labelClass} htmlFor="demo-volume">Expected calls per month
+            <select className={fieldClass} id="demo-volume" name="callVolume" defaultValue="">
+              <option value="" disabled>Select a range</option>
+              <option>Under 1,000</option>
+              <option>1,000–10,000</option>
+              <option>10,000–50,000</option>
+              <option>50,000+</option>
+              <option>Not sure yet</option>
+            </select>
+          </label>
+          <label className={labelClass} htmlFor="demo-language">Preferred language *
+            <select className={fieldClass} id="demo-language" name="language" value={language} onChange={(event) => setLanguage(event.target.value)} required>
+              <option value="" disabled>Select a language</option>
+              <option>English</option>
+              <option>Hindi</option>
+              <option>Telugu</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+          {language === 'Other' && (
+            <label className={labelClass} htmlFor="demo-other-language">Type your language *
+              <input className={fieldClass} id="demo-other-language" name="otherLanguage" required placeholder="Your preferred language" />
+            </label>
+          )}
+          <label className={`${labelClass} sm:col-span-2`} htmlFor="demo-notes">Anything else we should know? <span className="font-normal text-[rgb(var(--color-muted-foreground))]">(optional)</span>
+            <textarea className={`${fieldClass} min-h-24 resize-y`} id="demo-notes" name="notes" placeholder="Tell us what you would like to explore." />
+          </label>
+          <div className="sm:col-span-2">
+            {error && <p role="alert" className="mb-3 text-sm text-red-600">{error}</p>}
+            {submitted && <p role="status" className="mb-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">Thank you. Our team will reach out to you soon.</p>}
+            <button type="submit" disabled={submitting} className="w-full rounded-full bg-[rgb(var(--color-primary))] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[rgb(var(--color-primary-hover))] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-ring))] disabled:cursor-wait disabled:opacity-60">
+              {submitting ? 'Sending…' : 'Send demo request'}
+            </button>
+            <p className="mt-3 text-center text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Your details will be saved so our team can respond to your request.</p>
+          </div>
+        </form>
       </section>
-    </div>
+      <section aria-labelledby="demo-process-title" className="mx-auto mt-5 max-w-2xl rounded-2xl border border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))] px-5 py-4">
+        <h2 id="demo-process-title" className="text-sm font-semibold text-[rgb(var(--color-foreground))]">What happens next</h2>
+        <p className="mt-1 text-sm leading-6 text-[rgb(var(--color-muted-foreground))]">Our team will review your request and contact you to arrange a demo.</p>
+      </section>
+    </main>
   );
 }

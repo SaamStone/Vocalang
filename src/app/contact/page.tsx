@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/lib/config/site';
@@ -17,11 +17,32 @@ import { Button } from '@/components/shared/Button';
 
 export default function ContactPage() {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSuccess(true);
-    window.setTimeout(() => setIsSuccess(false), 5000);
+    setIsSubmitting(true);
+    setIsSuccess(false);
+    setError('');
+
+    const form = e.currentTarget;
+    const values = Object.fromEntries(new FormData(form).entries());
+    try {
+      const response = await fetch('/api/demo-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...values, formType: 'contact' }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Could not send your message.');
+      form.reset();
+      setIsSuccess(true);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not send your message.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -42,12 +63,17 @@ export default function ContactPage() {
           <ScrollReveal delay={0.1}>
             <div className="bg-[var(--color-card)] p-8 rounded-3xl border border-[var(--color-border)] shadow-sm">
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="hidden" aria-hidden="true">
+                  <label htmlFor="contact-website-honeypot">Website</label>
+                  <input id="contact-website-honeypot" name="website" tabIndex={-1} autoComplete="off" />
+                </div>
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-sm font-medium text-[var(--color-foreground)]">
                     {t('contact.name')}
                   </label>
                   <input
                     id="name"
+                    name="name"
                     required
                     className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
                     placeholder="John Doe"
@@ -60,6 +86,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     id="email"
+                    name="email"
                     type="email"
                     required
                     className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
@@ -73,6 +100,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     id="phone"
+                    name="phone"
                     type="tel"
                     className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
                     placeholder="+91 98765 43210"
@@ -85,6 +113,7 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     id="message"
+                    name="notes"
                     required
                     rows={4}
                     className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow resize-none"
@@ -96,15 +125,16 @@ export default function ContactPage() {
                   type="submit" 
                   size="lg" 
                   className="w-full"
-                  disabled={isSuccess}
+                  disabled={isSubmitting}
                 >
-                  {isSuccess ? (
-                    'Preview ready'
+                  {isSubmitting ? (
+                    'Sending…'
                   ) : (
                     <><Send className="mr-2 h-4 w-4" /> Send Message</>
                   )}
                 </Button>
-                {isSuccess && <p role="status" aria-live="polite" className="text-center text-xs leading-5 text-[rgb(var(--color-muted-foreground))]">Preview only: no message was sent. Email delivery will be connected later.</p>}
+                {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
+                {isSuccess && <p role="status" aria-live="polite" className="text-center text-sm leading-5 text-emerald-800">Thank you. Our team will reach out to you soon.</p>}
               </form>
             </div>
           </ScrollReveal>
